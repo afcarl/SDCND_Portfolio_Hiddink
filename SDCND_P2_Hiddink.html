@@ -17413,6 +17413,10 @@ Validation Features:  3921
 
 <span class="k">def</span> <span class="nf">neural_network</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">n_features</span><span class="p">,</span> <span class="n">n_labels</span><span class="p">):</span>
     
+    <span class="c1">#Architechture: INPUT --&gt; HIDDEN LAYER 1 --&gt; OUTPUT</span>
+    <span class="c1">#H1 = Hidden Layer</span>
+    <span class="c1">#Out = Output Layer</span>
+    
     <span class="n">layer_widths</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;h1_width&#39;</span><span class="p">:</span> <span class="mi">128</span>  
     <span class="p">}</span>
@@ -17425,10 +17429,11 @@ Validation Features:  3921
         <span class="s1">&#39;h1&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">layer_widths</span><span class="p">[</span><span class="s1">&#39;h1_width&#39;</span><span class="p">],))),</span>
         <span class="s1">&#39;out&#39;</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_labels</span><span class="p">,)),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;b_out&#39;</span><span class="p">)}</span>
 
-
+    <span class="c1">#Perform input layer to hidden layer calculations:</span>
     <span class="n">h1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">weights</span><span class="p">[</span><span class="s1">&#39;h1&#39;</span><span class="p">]),</span> <span class="n">biases</span><span class="p">[</span><span class="s1">&#39;h1&#39;</span><span class="p">])</span>
     <span class="n">h1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">h1</span><span class="p">)</span>
-
+    
+    <span class="c1">#Return hidden layer to output layer calculation:</span>
     <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">weights</span><span class="p">[</span><span class="s1">&#39;out&#39;</span><span class="p">]),</span> <span class="n">biases</span><span class="p">[</span><span class="s1">&#39;out&#39;</span><span class="p">])</span>
 
 <span class="k">def</span> <span class="nf">setup_network</span><span class="p">():</span>
@@ -17438,7 +17443,7 @@ Validation Features:  3921
 
     <span class="n">features</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
     <span class="n">labels</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-
+    
     <span class="n">train_feed_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">features</span><span class="p">:</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">y_train</span><span class="p">}</span>
     <span class="n">valid_feed_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">features</span><span class="p">:</span> <span class="n">X_valid</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">y_valid</span><span class="p">}</span>
     <span class="n">test_feed_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">features</span><span class="p">:</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">y_test</span><span class="p">}</span>
@@ -17511,8 +17516,10 @@ Validation Features:  3921
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer:</strong> <span style="color: red"> My model is fairly basic. The architechture is a simple implementation of Aymeric Damien's MNIST Multilayer Perceptron example, with the following architecture: </span></p>
+<p><strong>Answer:</strong></p>
+<p><span style="color: red"> My model is simple, but effective. The architechture follows the design pattern of Aymeric Damien's **MNIST Multilayer Perceptron** example, with the following layers: </span></p>
 <p><span style="color: red"> INPUT >> HIDDEN LAYER >> OUTPUT </span></p>
+<p><span style="color: red"> The weight of the hidden layer is [3072, 128] which is the size of one color input feature, 32x32x3, and the batch size of 128. I chose these values in an attempt to create the simplest network possible to reduce the total amount of time it took to run the code on my CPU and limited RAM space. As it turned out, I was able to achieve a test accuracy above 85% without the need for a convolutional layer or a fully-connected layer, so for simplicity I kept the model the way it is shown. If I were to improve this model in the future, I would begin by adding an additional hidden layer and a fully-connected layer to see how those affected performance and total runtime prior to implementing a ConvNet solution. </span></p>
 
 </div>
 </div>
@@ -19142,6 +19149,7 @@ bLHFFlv8ZLAlLltsscUWW2yxxU8GW+KyxRZbbLHFFlv8ZPD/AdISCk9tfzWGAAAAAElFTkSuQmCC
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
 <p><span style="color: red"> As shown below, my model was not able to correctly classify any of the candidate images. The combination of the small sample size of five images and the simplicity of my neural network did not allow room for success. </span></p>
+<p><span style="color: red"> From the predictions I ran on the candidate images, the testing accuracy is 0%, however my model's accuracy on the traning set was 84%. As a result, my model did not perform well in the real-world cases. I believe that the biggest reason for this is the small sample size of only 5 candidate images. My network architecture is also very simple, so there is enough room for error that makes inaccurate predictions fairy commonplace. As shown below, a small consolation is that one of the images has the correct classification in the top five of its K values, proving that further tweaking of the model should improve my real-world performance.</span></p>
 <p><span style="color: red"> I did not test the model on a live camera stream. </span></p>
 
 </div>
