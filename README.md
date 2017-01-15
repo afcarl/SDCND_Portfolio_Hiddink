@@ -2,11 +2,11 @@
 # Udacity's Self-Driving Car Nanodegree Program
 ## Project 3 - Behavioral Cloning
 ### _How to Train a Deep Neural Network to Drive a Simulated Car_ 
-This project builds and implements a behavioral cloning (end-to-end) network that drives a simulated autonomous vehicle around two different test tracks. The first track is used to generate data that the car will use to react and recover in changing road conditions. Data was collected in **"TRAINING MODE"** on the simulator for several laps and saved to **driving_log.csv**. The data was prepared and used to train the deep neural network model as outlined below.
+This project builds and implements a behavioral cloning (end-to-end) network that drives a simulated autonomous vehicle around two different test tracks. The first track is used to generate data that the car will use to react and recover in changing road conditions. is used to test the model's performance and ensure that it is not overfitting the data after training. Data was collected in **"TRAINING MODE"** on the simulator for several laps and saved to **driving_log.csv**. The data was prepared and used to train the deep neural network model as outlined below.
 
 ![ScreenShot](images/main_menu.png)
 
-**"AUTONOMOUS MODE"** is used to test the model's performance and ensure that it is not overfitting the data after training. Driving simulation is accomplished by running the car's drive server using the following code from the Terminal after a cd into the project's directory:
+**"AUTONOMOUS MODE"** Driving simulation is accomplished by running the car's drive server using the following code from the Terminal after a cd into the project's directory:
 
 #### $ python drive.py model.json
 
@@ -34,9 +34,13 @@ The model is built using the Keras library and is a Convolutional Neural Network
 
 ### Training the Model (model.py)
 
-This is the second track available in the simulator. Once the model is trained, this track used to verify performance on new terrain.
-
+Below is the second track available in the simulator. Once the model is trained, this track used to verify performance on new terrain.
 ![ScreenShot](images/second_track.png)
+The model was trained in the SDCND_P3_Hiddink.ipynb jupyter notebook using several techniques, including:
++ Crop - randomly selected images were cropped by 20 pixels in all directions to create new images, 
++ Shear - 
++ Flip - 
+
 
 #### Running the Model in the Simulator
 
