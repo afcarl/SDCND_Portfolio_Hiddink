@@ -1,9 +1,8 @@
-## Udacity's Self-Driving Car Nanodegree Program
-#### Project 3 - Behavioral Cloning
-
 ![ScreenShot](images/loading_screen.png)
-
-This project builds and implements a behavioral cloning (end-to-end) network that drives a simulated autonomous vehicle around two different test tracks. The first track is used to generate data that the car will use to react and recover in changing road conditions. Data is recorded in "TRAINING MODE" for several laps before being saved to the Jupyter notebook heirarchy in the data folder. From there, the data is preprocessed and used to train the pipeline's deep neural network model, as explained below.
+# Udacity's Self-Driving Car Nanodegree Program
+## Project 3 - Behavioral Cloning
+### _How to Train a Deep Neural Network to Drive a Simulated Car_ 
+This project builds and implements a behavioral cloning (end-to-end) network that drives a simulated autonomous vehicle around two different test tracks. The first track is used to generate data that the car will use to react and recover in changing road conditions. Data was collected in **"TRAINING MODE"** on the simulator for several laps and saved to **driving_log.csv**. The data was prepared and used to train the deep neural network model as outlined below.
 
 ![ScreenShot](images/main_menu.png)
 
@@ -11,30 +10,29 @@ This project builds and implements a behavioral cloning (end-to-end) network tha
 
 #### $ python drive.py model.json
 
-Selecting **"AUTONOMOUS MODE"** will start running the model and the car will begin driving on its own.
 
 ![ScreenShot](images/first_track.png)
 
-Udacity has requested that the following conventions be used for this project:
+The following naming conventions have been used in this project:
 
-+ **model.py** - The script used to create and train the model.
++ **model.py** - The script used to create and train the model. SDCND_P3_Hiddink.ipynb serves as the de facto model.py script in this implementation. This allowed the use of Jupyter notebooks and made up-front code writing more straightforward.
 
-+ **drive.py** - The script to drive the car. You can feel free to resubmit the original drive.py or make modifications and submit your modified version.
++ **drive.py** - The script to drive the car. The original file was kept largely the same, with the exception of a crop function. The script is in the home directory as drive.py.
 
-+ **model.json** - The model architecture.
++ **model.json** - The model architecture. The **archive** folder contains the historical versions of the model, model.json, that were created throughout this project's development.
 
-+ **model.h5** - The model weights.
++ **model.h5** - The model weights. The **archive** folder contains the historical versions of the model's weights, model.h5, that were created throughout this project's development.
 
-+ **README.md** - explains the structure of your network and training approach. While we recommend using English for good practice, writing in any language is acceptable (reviewers will translate). There is no minimum word count so long as there are complete descriptions of the problems and the strategies. See the rubric for more details about the expectations.
++ **README.md** - explains the structure of your network and training approach. This is the **README.md** file.
 
-**Because the model is being run in a Jupyter notebook, model.py is the model_py function in the pipeline rather than a separate file. Additionally, README.md is an overall summary that references this pipeline for further detail.**
+### Model Architecture
+The table below shows the model architecture used in this project. This CNN architecture has been successfully implemented in other steering angle solutions such as comma.ai (https://github.com/commaai/research), NVIDIA (https://arxiv.org/pdf/1604.07316v1.pdf), and in other student repos, such as ksakmann (https://github.com/ksakmann/CarND-BehavioralCloning/) and diyjac's repo on GitHub (https://github.com/diyjac/SDC-P3). 
+![ScreenShot](images/model_architecture.png
+Although slightly different in their approaches, each of the models mentioned above have the same thing in common: the data that they were supplied was heavily augmented in several ways in order to increase the model's exposure to changing road conditions. This project draws heavily on these techniques, and attempts to combine them for increased performance.
 
-#### Model Architecture
+The model is built using the Keras library and is a Convolutional Neural Network (CNN) with four convolutional layers. The sizes of each layer were chosen to decrease the kernel size by a factor of 2 after each convolution. ReLu activations are used throughout the model, and two dropout layers help to reduce the tendancy toward overfitting.
 
-
-
-#### Training the Model (model.py)
-
+### Training the Model (model.py)
 
 This is the second track available in the simulator. Once the model is trained, this track used to verify performance on new terrain.
 
@@ -46,7 +44,6 @@ This is the second track available in the simulator. Once the model is trained, 
 
 #### Run the drive server to begin autonomous steering
 !python drive.py model.json
-
 
 #### References
 
