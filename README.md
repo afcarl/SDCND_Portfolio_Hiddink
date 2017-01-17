@@ -44,7 +44,7 @@ The model was trained in the SDCND_P3_Hiddink.ipynb jupyter notebook using the m
 + A joystick was not available to collect driving data.
 
 As a result, it became necessary to augment the data set provided by Udacity using several techniques, as shown below.
-Original Sample:
++ Original Sample:
 ![ScreenShot](images/sample_feature.jpg)
 + Shearing
 ![ScreenShot](images/random_shear.jpg)
@@ -52,8 +52,9 @@ Original Sample:
 ![ScreenShot](images/random_crop.jpg)
 + Flipping
 ![ScreenShot](images/random_flip.jpg)
-+ Adjusting Brightness. Each of these techniques were used to increase the overall size of the data set to give the model more material to learn.
++ Adjusting Brightness. 
 ![ScreenShot](images/random_brightness.jpg)
+Each of these techniques were used to increase the overall size of the data set to give the model more material to learn.
 
 #### Final Results
 Here are the final results of the project:
