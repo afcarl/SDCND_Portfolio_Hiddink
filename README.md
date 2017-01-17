@@ -26,7 +26,9 @@ The following naming conventions have been used in this project:
 + **README.md** - explains the structure of your network and training approach. This is the **README.md** file.
 
 ### Model Architecture
+
 ![ScreenShot](images/model_architecture.png)
+
 The graph above shows the NVIDIA model architecture described in a recent paper published here: https://arxiv.org/pdf/1604.07316v1.pdf 
 
 This project was largely inspired by the NVIDIA architecture, in addition to other successful implementations of Convolutional Neural Networks on GitHub, such as comma.ai (https://github.com/commaai/research) and student repos by ksakmann (https://github.com/ksakmann/CarND-BehavioralCloning/) and diyjac (https://github.com/diyjac/SDC-P3). 
@@ -45,14 +47,19 @@ The model was trained in the SDCND_P3_Hiddink.ipynb jupyter notebook using the m
 
 As a result, it became necessary to augment the data set provided by Udacity using several techniques, as shown below.
 Original Sample:
+
 ![ScreenShot](images/sample_feature.jpg)
+
 + Shearing
 ![ScreenShot](images/random_shear.jpg)
-+ Cropping 
+
++ Cropping
 ![ScreenShot](images/random_crop.jpg)
+
 + Flipping
 ![ScreenShot](images/random_flip.jpg)
-+ Adjusting Brightness. 
+
++ Adjusting Brightness 
 ![ScreenShot](images/random_brightness.jpg)
 
 Each of these techniques were used to increase the overall size of the data set to give the model more material to learn.
