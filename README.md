@@ -44,7 +44,7 @@ The model was trained in the SDCND_P3_Hiddink.ipynb jupyter notebook using the m
 + A joystick was not available to collect driving data.
 
 As a result, it became necessary to augment the data set provided by Udacity using several techniques, as shown below.
-+ Original Sample:
+Original Sample:
 ![ScreenShot](images/sample_feature.jpg)
 + Shearing
 ![ScreenShot](images/random_shear.jpg)
@@ -54,14 +54,17 @@ As a result, it became necessary to augment the data set provided by Udacity usi
 ![ScreenShot](images/random_flip.jpg)
 + Adjusting Brightness. 
 ![ScreenShot](images/random_brightness.jpg)
+
 Each of these techniques were used to increase the overall size of the data set to give the model more material to learn.
 
 #### Final Results
 Here are the final results of the project:
+
 [![Alt text](https://img.youtube.com/vi/kuUtfNDPWpY/0.jpg)](https://www.youtube.com/watch?v=kuUtfNDPWpY)
 
 #### Further plans
 In the future, I hope to improve upon the data augmentation techniques to increase performance in shadows. Additionally, I could to add additional tracks to the simulator and possibly implement lane detection using OpenCV. 
 
 One project on GitHub that has inspired me further is TensorKart by Kevin Hughes (https://github.com/kevinhughes27/TensorKart). I am interested in contributing further to his work, possibly using some of the code that was developed in this project.
+
 [![Alt text](https://img.youtube.com/vi/vrccd3yeXnc/0.jpg)](https://www.youtube.com/watch?v=vrccd3yeXnc)
