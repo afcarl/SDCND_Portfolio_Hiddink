@@ -1,3 +1,7 @@
+![ScreenShot](images/loading_screen.png)
+# Udacity's Self-Driving Car Nanodegree Program
+## Project 4 - Advanced Lane Finding
+
 ## Advanced Lane Finding
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
