@@ -15,6 +15,10 @@ Use color transforms, gradients, etc., to create a thresholded binary image.
 
 Apply a perspective transform to rectify binary image ("birds-eye view").
 
+4-Point Perspective Transform Example:
+http://www.pyimagesearch.com/2014/08/25/4-point-opencv-getperspective-transform-example/
+
+
 Detect lane pixels and fit to find the lane boundary.
 
 Determine the curvature of the lane and vehicle position with respect to center.
@@ -38,5 +42,7 @@ Conclusion
 
 
 Future Plans
+
++ I plan to build the OpenCV GameBoy Pokedex: http://www.pyimagesearch.com/2014/03/10/building-pokedex-python-getting-started-step-1-6/
 
 
