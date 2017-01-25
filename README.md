@@ -1,4 +1,4 @@
-![ScreenShot](resources/screenshots/loading_screen.png)
+![ScreenShot](https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/Resources/Screenshots/loading_screen.png)
 # Udacity's Self-Driving Car Nanodegree Program
 ## Project 4 - Advanced Lane Finding
 
@@ -9,7 +9,7 @@ he images for camera calibration are stored in the folder called `camera_cal`.  
 
 Apply a distortion correction to raw images.
 
-![ScreenShot](resources/screenshots/distortion.png)
+![ScreenShot](https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/Resources/Screenshots/distortion.png)
 
 Use color transforms, gradients, etc., to create a thresholded binary image.
 
@@ -22,6 +22,8 @@ http://www.pyimagesearch.com/2014/08/25/4-point-opencv-getperspective-transform-
 Detect lane pixels and fit to find the lane boundary.
 
 Determine the curvature of the lane and vehicle position with respect to center.
+
+![ScreenShot](https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/Resources/Screenshots/highway_specs.png)
 
 Warp the detected lane boundaries back onto the original image.
 
