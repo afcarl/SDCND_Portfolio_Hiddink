@@ -12,6 +12,11 @@ Apply a distortion correction to raw images.
 ![ScreenShot](https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/Resources/Screenshots/distortion.png)
 
 Use color transforms, gradients, etc., to create a thresholded binary image.
+I experimented with several color transformations and gradients in my code. These included:
++ HSV Color transform using the S-channel
++ Gradient Magnitude
++ Gradient Direction
+
 
 Apply a perspective transform to rectify binary image ("birds-eye view").
 
