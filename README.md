@@ -1,4 +1,4 @@
-![ScreenShot](resources/screenshots/loading_screen.png)
+![ScreenShot](https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/Resources/Screenshots/loading_screen.png)
 # Udacity's Self-Driving Car Nanodegree Program
 ## Project 4 - Advanced Lane Finding
 
@@ -9,15 +9,26 @@ he images for camera calibration are stored in the folder called `camera_cal`.  
 
 Apply a distortion correction to raw images.
 
-![ScreenShot](resources/screenshots/distortion.png)
+![ScreenShot](https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/Resources/Screenshots/distortion.png)
 
 Use color transforms, gradients, etc., to create a thresholded binary image.
+I experimented with several color transformations and gradients in my code. These included:
++ HSV Color transform using the S-channel
++ Gradient Magnitude
++ Gradient Direction
+
 
 Apply a perspective transform to rectify binary image ("birds-eye view").
+
+4-Point Perspective Transform Example:
+http://www.pyimagesearch.com/2014/08/25/4-point-opencv-getperspective-transform-example/
+
 
 Detect lane pixels and fit to find the lane boundary.
 
 Determine the curvature of the lane and vehicle position with respect to center.
+
+![ScreenShot](https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/Resources/Screenshots/highway_specs.png)
 
 Warp the detected lane boundaries back onto the original image.
 
@@ -38,5 +49,7 @@ Conclusion
 
 
 Future Plans
+
++ I plan to build the OpenCV GameBoy Pokedex: http://www.pyimagesearch.com/2014/03/10/building-pokedex-python-getting-started-step-1-6/
 
 
