@@ -8,12 +8,12 @@
 [gradient_direction]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/gradient_direction.png 
 [color_thresholding]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/color_thresholding.png 
 [multiple_thresholds]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/multiple_thresholds.png
-[region_masked]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/region_masked.png "Region Masking Example"
-[hough_lines]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/hough_lines.png "Hough Lines Example"
-[perspective_transform]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/perspective_transform.png "Perspective Transform Example"
-[sliding_windows]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/sliding_windows.png "Sliding Windows Example"
-[shaded_lanes]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/shaded_lanes.png "Shaded Lanes Example"
-[lane_mapping]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/lane_mapping.png "Lane Mapping Example"
+[region_masked]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/region_masked.png
+[hough_lines]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/hough_lines.png
+[perspective_transform]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/perspective_transform.png
+[sliding_windows]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/sliding_windows.png
+[shaded_lanes]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/shaded_lanes.png
+[lane_mapping]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/lane_mapping.png
 
 ![ScreenShot](https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/Resources/Screenshots/loading_screen.png)
 ## Udacity's Self-Driving Car Nanodegree Program
@@ -31,10 +31,6 @@ This project utilizes several computer vision algorithms and techniques to perfo
 * Determining the curvature of the lane and vehicle position with respect to center.
 * Warping the detected lane boundaries back onto the original image.
 * Outputing the visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
-
-Click on the image below to view a YouTube video showcasing the results of the project.
-
-#####_VIDEO WORK IN PROGRESS_
 
 ###Camera Calibration
 
@@ -111,23 +107,39 @@ The next step after transforming the perspective was to detect lane-line pixels 
 
 ![Alt Text](shaded_lanes)
 
-####5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
+After detecting the lanes I needed to calculate the radius of curvature for each of the polynomial fits that I performed. The results of these calculations are shown in the table below. I used the radius of curvature example code from Udacity's lessons to create the calculation cells.
 
-I did this in lines # through # in my code in `my_other_file.py`
+| Test Image | Radius of Curvature (Left) | Radius of Curvature (Right) | 
+|:----------:|:--------------------------:|:---------------------------:| 
+| test1.png  | 2985.467894 meters         | 2850.142018 meters          | 
+| test2.png  | 4984.505982 meters         | 12357.329365 meters         |
+| test3.png  | 10088.084712 meters         | 2363.421967 meters          |
+| test4.png  | 9894.520013 meters         | 2366.846436 meters          |
+| test5.png  | 2548.327638 meters         | 6124.849321 meters          |
+| test6.png  | 4173.313472 meters         | 45794.832663 meters         |
 
-####6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
+Another calculation performed was the offset from the lane's center. The calculations are shown in the code cell following the radius of curvature, and yielded the following:
 
-I implemented this step in lines # through # in my code in `yet_another_file.py` in the function `map_lane()`.  Here is an example of my result on a test image:
+| Test Image | Offset from Center |
+|:----------:|:------------------:| 
+| test1.png  | 1.020143 meters    |
+| test2.png  | 0.901214 meters    |
+| test3.png  | 0.935571 meters    |
+| test4.png  | 1.123214 meters    |
+| test5.png  | 0.930286 meters    |
+| test6.png  | 1.070357 meters    |
 
-![alt text][image6]
+Finally, I plotted the warped images back down onto the road such that, for each image, the lane area is identified clearly:
+
+![alt text][lane_mapping]
 
 ---
 
 ###Pipeline (Video)
 
-####1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (wobbly lines are ok but no catastrophic failures that would cause the car to drive off the road!).
+Click on the image below to view a YouTube video showcasing the results of the project.
 
-Here's a [link to my video result](./project_video.mp4)
+####_VIDEO IS CURRENTLY IN PROGRESS_
 
 ---
 
