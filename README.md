@@ -3,20 +3,21 @@
 [distortion]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/distortion.png
 [distortion_theory]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/Resources/Screenshots/distortion.png
 [corners_unwarp]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/corners_unwarp.png
-[distortion_corrected]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/distortion_corrected.png 
-[sobel_operators]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/sobel_operators.png 
+[distortion_corrected]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/undistorted.png
+[sobel_x]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/sobel_x.png
+[sobel_y]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/sobel_y.png
 [gradient_magnitude]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/gradient_magnitude.png
 [gradient_direction]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/gradient_direction.png 
-[color_thresholding]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/color_thresholding.png 
-[multiple_thresholds]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/multiple_thresholds.png
+[color_thresholds]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/color_thresholds.png 
+[multiple_thresholds]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/thresholded_binary.png
 [region_masked]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/region_masked.png
-[hough_lines]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/hough_lines.png
+[hough_transform]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/hough_transform.png
 [perspective_transform]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/perspective_transform.png
 [sliding_windows]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/sliding_windows.png
 [shaded_lanes]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/shaded_lanes.png
 [lane_mapping]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/lane_mapping.png
 
-![alt text](https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/Resources/Screenshots/loading_screen.png)
+![alt text][loading_screen]
 ## Udacity's Self-Driving Car Nanodegree Program
 ### Project 4 - Advanced Lane Finding
 
@@ -41,7 +42,7 @@ The code for this step is contained in Sections I & II of SDCND_P4_Hiddink.ipynb
 
 First, I define "object points", which represent the (x, y, z) coordinates of the chessboard corners in the world. I assume that the chessboard is fixed on the (x, y) plane at z=0, such that the object points are the same for each calibration image.  Thus, `objp` is just a replicated array of coordinates, and `objpoints` is appended with a copy of it every time I successfully detect all chessboard corners in a test image.  `imgpoints` is appended with the (x, y) pixel position of each of the corners in the image plane with each successful chessboard detection.  
 
-![alt text](distortion_theory)
+![alt text][distortion_theory]
 
 From there, I used the output `objpoints` and `imgpoints` to compute the camera calibration and distortion coefficients using the `cv2.calibrateCamera()` function.  I applied this distortion correction to the test image using the `cv2.undistort()` function and obtained this result: 
 
@@ -55,17 +56,18 @@ Here are the results of distortion correction on each of the test images (locate
 
 ###Pipeline (Images)
 
-![alt text][multiple_thresholds]
+![alt text][thresholded_binary]
 
 The example above displays the results of multiple thresholds on each test image in the test_images folder. Section III of the code explains this process step-by-step, with examples of each individual threshold. In order, the thresholding used on the images is as follows:
 
 + Color Channel HLS & HSV Thresholding - I extract the S-channel of the original image in HLS format and combine the result with the extracted V-channel of the original image in HSV format.
 
-![alt text][color_thresholding]
+![alt text][color_thresholds]
 
 + Binary X & Y - I use Sobel operators to filter the original image for the strongest gradients in both the x-direction and the y-direction.
 
-![alt text][sobel_operators]
+![alt text][sobel_x]
+![alt text][sobel_y]
 
 Next, I used techniques from "Project 1 - Finding Lane Lines" to conduct sanity checks. These techniques included Region Masking & Hough Lines, and the purpose for performing them was to ensure that the thresholding steps I took were accurate enough to yield proper perspective transforms.
 
@@ -92,21 +94,23 @@ Once the regions were successfully removing background noise from the images, I 
 
 The results of my HoughLinesP transform are shown below:
 
-![alt text][hough_lines]
+![alt text][hough_transform]
 
 Seeing that Hough lines were successfully created on both sides of the lane for each image, I was confident at this point that my code would be able to perform effective perspective transforms.
 
 The code for my perspective transform is performed in a function I created called perspective_transform. The function takes in a thresholded binary image and source points, with the source points coinciding with the region masking points explained in the region masking table above. For destination points, I chose the outline of the image being transformed. Here are the results of the transforms:
 
-![alt text](https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/perspective_transform.png)
+![alt text][perspective_transform]
 
 I verified that my perspective transform was working as expected by using Region masks and drawing Hough Lines. Therefore, I did not find it necessary to draw the `src` and `dst` points onto the warped test images.
 
 The next step after transforming the perspective was to detect lane-line pixels and to fit their positions using a polynomial in Section V of my code. After developing functions for sliding_windows and shaded_lanes, I was able to detect the lanes and yield the following results:
 
-![alt text](https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/sliding_windows.png)
+Sliding Windows Technique:
+![alt text][sliding_windows]
 
-![alt text](https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/shaded_lanes.png)
+Shaded Lanes Technique:
+![alt text][shaded_lanes]
 
 After detecting the lanes I needed to calculate the radius of curvature for each of the polynomial fits that I performed. The results of these calculations are shown in the table below. I used the radius of curvature example code from Udacity's lessons to create the calculation cells.
 
@@ -114,7 +118,7 @@ After detecting the lanes I needed to calculate the radius of curvature for each
 |:----------:|:--------------------------:|:---------------------------:| 
 | test1.png  | 2985.467894 meters         | 2850.142018 meters          | 
 | test2.png  | 4984.505982 meters         | 12357.329365 meters         |
-| test3.png  | 10088.084712 meters         | 2363.421967 meters          |
+| test3.png  | 10088.084712 meters        | 2363.421967 meters          |
 | test4.png  | 9894.520013 meters         | 2366.846436 meters          |
 | test5.png  | 2548.327638 meters         | 6124.849321 meters          |
 | test6.png  | 4173.313472 meters         | 45794.832663 meters         |
@@ -136,11 +140,18 @@ Finally, I plotted the warped images back down onto the road such that, for each
 
 ---
 
-###Pipeline (Video)
+### Pipeline (Video)
 
-Click on the image below to view a YouTube video showcasing the results of the project.
+Click on the image or link below to view the video results of the project.
 
-####_VIDEO IS CURRENTLY IN PROGRESS_
+### P4_video_final.mp4
+https://youtu.be/Vc9W7hpMgnM
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vc9W7hpMgnM
+" target="_blank"><img src="http://img.youtube.com/vi/Vc9W7hpMgnM/0.jpg" 
+alt="YouTube" width="240" height="180" border="10" /></a>
+
+### 
 
 ---
 
