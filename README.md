@@ -11,7 +11,6 @@
 [color_thresholds]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/color_thresholds.png 
 [multiple_thresholds]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/thresholded_binary.png
 [region_masked]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/region_masked.png
-[hough_transform]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/hough_transform.png
 [perspective_transform]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/perspective_transform.png
 [sliding_windows]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/sliding_windows.png
 [shaded_lanes]: https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding/blob/master/resources/output_images/shaded_lanes.png
@@ -82,27 +81,9 @@ The region masking results are shown below. I chose to limit the mask to a regio
 
 ![alt text][region_masked]
 
-Once the regions were successfully removing background noise from the images, I used HoughLinesP and the following parameters to produce Hough lines:
-
-| Parameter        | Value  | 
-|:----------------:|:------:| 
-| rho              | 1      | 
-| theta            | 1/180  |
-| threshold        | 70     |
-| min_line_length  | 10     |
-| max_line_gap     | 30     |
-
-The results of my HoughLinesP transform are shown below:
-
-![alt text][hough_transform]
-
-Seeing that Hough lines were successfully created on both sides of the lane for each image, I was confident at this point that my code would be able to perform effective perspective transforms.
-
 The code for my perspective transform is performed in a function I created called perspective_transform. The function takes in a thresholded binary image and source points, with the source points coinciding with the region masking points explained in the region masking table above. For destination points, I chose the outline of the image being transformed. Here are the results of the transforms:
 
 ![alt text][perspective_transform]
-
-I verified that my perspective transform was working as expected by using Region masks and drawing Hough Lines. Therefore, I did not find it necessary to draw the `src` and `dst` points onto the warped test images.
 
 The next step after transforming the perspective was to detect lane-line pixels and to fit their positions using a polynomial in Section V of my code. After developing functions for sliding_windows and shaded_lanes, I was able to detect the lanes and yield the following results:
 
