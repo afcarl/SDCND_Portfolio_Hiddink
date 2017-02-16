@@ -55,7 +55,7 @@ Here are the results of distortion correction on each of the test images (locate
 
 ###Pipeline (Images)
 
-![alt text][thresholded_binary]
+![alt text][multiple_thresholds]
 
 The example above displays the results of multiple thresholds on each test image in the test_images folder. Section III of the code explains this process step-by-step, with examples of each individual threshold. In order, the thresholding used on the images is as follows:
 
