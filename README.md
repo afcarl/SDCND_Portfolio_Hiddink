@@ -106,7 +106,7 @@ The final feature extraction method that was implemented includes color histogra
 | visualise       | True    |
 | feature_vector  | False   |
 
-I chose these parameters for HOG after trial and error on test4.jpg. As shown in the visualization above, the parameters optimize the gradients and limit false positives later in the pipeline. 
+I chose these parameters for HOG after trial and error on test4.jpg. As shown in the visualization above, the parameters optimize the gradients, and work well for the heat map step later in the pipeline that limits the false positive classifications.
 
 ---
 
@@ -120,7 +120,7 @@ The training data was normalized, randomized, and split into training and testin
 
 ####3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-I trained a linear SVM using...
+I trained a linear SVM using 
 
 ---
 
@@ -162,22 +162,29 @@ Here's an example result showing the heatmap from a series of frames of video, t
 
 A link to the final video output for this project is provided below. The code pipeline performs reasonably well on the entire video.
 
-**Video in Progress**
+### P5_project_video_final.mp4
+https://youtu.be/Vx5GtROunzQ
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=Vx5GtROunzQ
+" target="_blank"><img src="http://img.youtube.com/vi/Vx5GtROunzQ/0.jpg" 
+alt="YouTube" width="240" height="180" border="10" /></a>
 
 ---
 
 ### Discussion
 
-####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+Firstly, The biggest challenge with this project was getting everything to work on a video stream. Due to the limitations of my laptop, a CPU, I was not able to troubleshoot the parameters as much as I would have liked, as each iteration of testing took a frustratingly long period of time. That said, I was able to find a few combinations of feature extraction parameters that performed better than others, and ultimately I realized the importance of spatial binning and HOG as two critical factors in creating a successful pipeline.
 
-Here I'll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.  
+Secondly, I would also have figured out a way to smooth the vehicle detections from frame to frame. Perhaps some of my code would have run faster, and the overall output would be more desirable.
 
----
+Lastly, the sliding window technique that I implemented was carried out for each frame, and HOG features were generated within each window, increasing processing time. Although I was able to produce a decent output, the code would have run faster had I run HOG features once as an array over the whole test image, then applied indexes of that array to each individual sliding window. Perhaps I will implement this concept in the future.
 
 ### Future Plans
 
-+ Datasets - 
++ **Include Additional Datasets**- I would like to implement Udacity's recently released dataset in the future. 
 
-+ **As an optional challenge** Once you have a working pipeline for vehicle detection, add in your lane-finding algorithm from the last project to do simultaneous lane-finding and vehicle detection!
++ **Test Additional Classifiers**- Linear SVC was sufficient for this project, as it provided me with above 94% accuracy on a regular basis. However, if in the future I require a real-world system that must be able to classify cars on a human performance-level, I would need to experiment with other classifiers to improve past 94%.
 
-+ **If you're feeling ambitious** (also totally optional though), don't stop there!  We encourage you to go out and take video of your own, and show us how you would implement this project on a new video!
++ **Add Lane Detection**- I would like to one day add my lane-finding algorithm from [Project 4 - Advanced Lane Detection](https://github.com/nhiddink/CarND_P4_Advanced_Lane_Finding) to perform simultaneous lane-finding and vehicle detection on a video.
+
++ **Test On Additional Videos**- One day I hope to implement this project on my own test videos.
