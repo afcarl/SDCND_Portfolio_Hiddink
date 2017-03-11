@@ -1,7 +1,12 @@
-# Extended Kalman Filter Project Starter Code
-Self-Driving Car Engineer Nanodegree Program
+[//]: # (Image References)
+[loading_screen]: https://github.com/nhiddink/CarND_P5_Vehicle_Detection_and_Tracking/blob/master/resources/screenshots/loading_screen.png
+
+[![loading_screen](https://github.com/nhiddink/CarND_P5_Vehicle_Detection_and_Tracking/blob/master/resources/screenshots/loading_screen.png)](http://www.udacity.com/drive)
+## Udacity's Self-Driving Car Nanodegree Program
+### Project 6 - Extended Kalman Filters
 
 ---
+
 
 ## Dependencies
 
