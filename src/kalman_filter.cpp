@@ -41,6 +41,16 @@ void KalmanFilter::Update(const VectorXd &z) {
 
 void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
-//TODO: Implement EKF equations
+  // Update state by implementing EKF equations
+  VectorXd z_pred = H_ * x_;
+  VectorXd y = z - z_pred;
+  MatrixXd S = H_ * P_ * H_.transpose() + R_;
+  MatrixXd PHt = P_ * H_.transpose();
+  MatrixXd K = PHt * S.inverse();
 
+  // New estimate
+  x_ = x_ + (K * y);
+  long x_size = x_size();
+  MatrixXd I = MatrixXd::Identity(x_size, x_size);
+  P_ = (I - K * H_) * P_;
 }
