@@ -11,18 +11,27 @@
 class FusionEKF {
 public:
 
+  // Constructor
   FusionEKF();
+
+  // Destructor
   virtual ~FusionEKF();
 
+  // Run the Kalman Filter flow through here
   void ProcessMeasurement(const MeasurementPackage &measurement_pack);
 
+  // Object used to perform Update and Prediction calculations
   KalmanFilter ekf_;
 
 private:
 
+  // Check for first measurement
   bool is_initialized_;
+
+  // Previous measurement timestamp
   long previous_timestamp_;
 
+  // Object used to perform Jacobian and RSME calculations
   Tools tools;
 
   MatrixXd R_laser_;
