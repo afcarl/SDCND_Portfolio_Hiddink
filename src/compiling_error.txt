@@ -1,0 +1,11 @@
+In file included from /Users/nhiddink/GitHub/CarND_P6_Extended_Kalman_Filters/src/kalman_filter.cpp:23:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/iostream:47:1: error: namespaces can only be defined in global or namespace scope
+_LIBCPP_BEGIN_NAMESPACE_STD
+^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__config:395:51: note: expanded from macro '_LIBCPP_BEGIN_NAMESPACE_STD'
+#define _LIBCPP_BEGIN_NAMESPACE_STD namespace std {inline namespace _LIBCPP_NAMESPACE {
+                                                  ^
+/Users/nhiddink/GitHub/CarND_P6_Extended_Kalman_Filters/src/kalman_filter.cpp:24:8: error: no member named 'cout' in namespace 'std'
+  std::cout << "Test";
+  ~~~~~^
+2 errors generated.

@@ -19,6 +19,10 @@ void KalmanFilter::Predict() {
   TODO:
     * predict the state
   */
+
+  #include <iostream>
+  std::cout << "Test";
+
 }
 
 void KalmanFilter::Update(const VectorXd &z) {
