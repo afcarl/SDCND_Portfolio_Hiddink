@@ -41,6 +41,22 @@ void KalmanFilter::Update(const VectorXd &z) {
 
 void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
+  // Pre-compute a set of terms to avoid repeated calculations
+  float px = x_[0];
+  float py = x_[1];
+  float vx = x_[2];
+  float vy = x_[3];
+  float c1 = px * px + py * py;
+  float c2 = px * vx;
+  float c3 = py * vy;
+
+  float range = sqrt(c1)
+  float bearing = atan(py / px);
+  float rangeRate = (c2 + c3) / range;
+
+  VectorXd z_pred(3);
+  z_pred << range, bearing, rangeRate;
+
   // Update state by implementing EKF equations
   VectorXd z_pred = H_ * x_;
   VectorXd y = z - z_pred;
