@@ -28,7 +28,7 @@ void KalmanFilter::Update(const VectorXd &z) {
   VectorXd z_pred = H_ * x_;
 	VectorXd y = z - z_pred;
 	MatrixXd S = H_ * P_ * H_.transpose() + R_;
-	MatrixXd PHt = P_ * Ht;
+	MatrixXd PHt = P_ * H_.transpose();
 	MatrixXd K = PHt * S.inverse();
 
   // New estimate
@@ -39,26 +39,9 @@ void KalmanFilter::Update(const VectorXd &z) {
 
 }
 
-void KalmanFilter::UpdateEKF(const VectorXd &z) {
-
-  // Pre-compute a set of terms to avoid repeated calculations
-  float px = x_[0];
-  float py = x_[1];
-  float vx = x_[2];
-  float vy = x_[3];
-  float c1 = px * px + py * py;
-  float c2 = px * vx;
-  float c3 = py * vy;
-
-  float range = sqrt(c1)
-  float bearing = atan(py / px);
-  float rangeRate = (c2 + c3) / range;
-
-  VectorXd z_pred(3);
-  z_pred << range, bearing, rangeRate;
+void KalmanFilter::UpdateEKF(const VectorXd &z, const VectorXd &z_pred) {
 
   // Update state by implementing EKF equations
-  VectorXd z_pred = H_ * x_;
   VectorXd y = z - z_pred;
   MatrixXd S = H_ * P_ * H_.transpose() + R_;
   MatrixXd PHt = P_ * H_.transpose();
@@ -66,7 +49,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
   // New estimate
   x_ = x_ + (K * y);
-  long x_size = x_size();
+  long x_size = x_.size();
   MatrixXd I = MatrixXd::Identity(x_size, x_size);
   P_ = (I - K * H_) * P_;
 }

@@ -1019,8 +1019,6 @@ Eigen/src/Core/util/MKL_support.h
 /Users/nhiddink/GitHub/CarND_P6_Extended_Kalman_Filters/src/FusionEKF.cpp
 FusionEKF.h
 /Users/nhiddink/GitHub/CarND_P6_Extended_Kalman_Filters/src/FusionEKF.h
-tools.h
-/Users/nhiddink/GitHub/CarND_P6_Extended_Kalman_Filters/src/tools.h
 Eigen/Dense
 /Users/nhiddink/GitHub/CarND_P6_Extended_Kalman_Filters/src/Eigen/Dense
 iostream
@@ -1049,8 +1047,12 @@ kalman_filter.h
 /Users/nhiddink/GitHub/CarND_P6_Extended_Kalman_Filters/src/kalman_filter.h
 
 /Users/nhiddink/GitHub/CarND_P6_Extended_Kalman_Filters/src/kalman_filter.h
+iostream
+-
 Eigen/Dense
 /Users/nhiddink/GitHub/CarND_P6_Extended_Kalman_Filters/src/Eigen/Dense
+vector
+-
 
 /Users/nhiddink/GitHub/CarND_P6_Extended_Kalman_Filters/src/main.cpp
 fstream
@@ -1087,4 +1089,6 @@ vector
 -
 Eigen/Dense
 /Users/nhiddink/GitHub/CarND_P6_Extended_Kalman_Filters/src/Eigen/Dense
+iostream
+-
 
