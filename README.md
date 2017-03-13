@@ -50,9 +50,11 @@ In general, this repository conforms to [Google's C++ style guide](https://googl
 
 ## Overview
 
-This project is an implementation of an Extended Kalman Filter in C++. The filter utilizes both laser and radar data inputs, as each has its own advantages. On one hand, laser data can accurately define an object's position in space. On the other hand, radar data provides valuable speed data that can be used to track an object's velocity relative to the sensor. The following schematic outlines these concepts:
+This project is an implementation of an Extended Kalman Filter in C++. The filter utilizes both laser and radar data inputs, as each has its own advantages. Laser data can accurately define an object's position in space. Radar data provides valuable speed data that can be used to track an object's velocity relative to the sensor. The following schematic outlines these concepts:
 
 ![sensor_pros_cons]
+
+Combining data from multiple sensors such that the resulting information has less uncertainty than either of the originals alone is the essence of [Sensor Fusion](https://en.wikipedia.org/wiki/Sensor_fusion).
 
 The process flow of the project is described below. Each measurement type is handled separately because they are recorded in different coordinate systems. 
 
