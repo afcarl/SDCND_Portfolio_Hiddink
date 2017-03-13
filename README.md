@@ -33,10 +33,13 @@ https://github.com/udacity/CarND-Extended-Kalman-Filter-Project
 
 ## Basic Build Instructions
 
-1. Clone this repo.
-2. Make a build directory: `mkdir build && cd build`
-3. Compile: `cmake .. && make`
-4. Run it: `./ExtendedKF path/to/input.txt path/to/output.txt`. You can find
+[![atom](https://github.com/nhiddink/CarND_P6_Extended_Kalman_Filters/blob/master/screenshots/atom.png)](https://github.com/atom/atom/releases)
+
+GitHub's Atom editor is a useful tool for working on the code files in this repository. Click on the image above to visit the download page for Atom 1.15. When you have finished editing the source code, build the project by performing these steps:
+
+1. Inside of your project's directory, make a build directory: `mkdir build && cd build`
+2. Compile your source code: `cmake .. && make`
+3. Run the program in the Terminal window, within the build directory: `./ExtendedKF path/to/input.txt path/to/output.txt`. You can find
    some sample inputs in 'data/'.
     - eg. `./ExtendedKF ../data/sample-laser-radar-measurement-data-1.txt output.txt`
 
