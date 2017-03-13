@@ -62,6 +62,30 @@ The process flow of the project is described below. Each measurement type is han
 
 ---
 
+## Results (Terminal)
+
+The following results for Root Mean Square Error (RMSE) Accuracy were produced for each set of data, respectively:
+
+**sample-laser-radar-measurement-data-1.txt**
+
+| Variable | RMSE |
+|:--------:|:----:|
+| px       | 0.0651649 |
+| py       | 0.0605378 |
+| vx       | 0.54319   | 
+| vy       | 0.544191  |
+
+**sample-laser-radar-measurement-data-2.txt**
+
+| Variable | RMSE |
+|:--------:|:----:|
+| px       | 0.208971 |
+| py       | 0.214995 |
+| vx       | 0.510136 | 
+| vy       | 0.808932 |
+
+---
+
 ## Future Plans
 
 + **Generate Additional Data** - use my own radar and lidar data collected using [utilities repo](https://github.com/udacity/CarND-Mercedes-SF-Utilities) Matlab scripts.
