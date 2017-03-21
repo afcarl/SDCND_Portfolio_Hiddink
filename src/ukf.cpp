@@ -18,10 +18,10 @@ UKF::UKF() {
   P_ = MatrixXd(5, 5);
 
   // Process noise standard deviation longitudinal acceleration in m/s^2
-  std_a_ = 30;
+  std_a_ = 0.2;
 
   // Process noise standard deviation yaw acceleration in rad/s^2
-  std_yawdd_ = 30;
+  std_yawdd_ = 0.2;
 
   // Laser measurement noise standard deviation position1 in m
   std_laspx_ = 0.15;
@@ -47,19 +47,19 @@ UKF::UKF() {
   */
 
   ///* predicted sigma points matrix
-  Xsig_pred_ = MatrixXd(0, 0);
+  Xsig_pred_ = MatrixXd(11, 5);
 
   ///* time when the state is true, in us
   time_us_ = 0;
 
   ///* Weights of sigma points
-  weights_;
+  VectorXd weights_;
 
   ///* State dimension
   n_x_ = 5;
 
   ///* Augmented state dimension
-  int n_aug_;
+  n_aug_ = 7;
 
   ///* Sigma point spreading parameter
   lambda_ = 3 - n_x;
@@ -86,8 +86,11 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   measurements.
   */
 
-  Xsig_pred_ = MatrixXd(11, 5);
-  ukf.GenerateSigmaPoints
+  MatrixXd Xsig_pred = Xsig_pred_;
+  ukf.GenerateSigmaPoints(&Xsig_pred);
+
+  std:cout << "Xsig = " << std::endl << Xsig << std::endl;
+
 }
 
 /**
@@ -134,6 +137,10 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   */
 }
 
+/**
+ * GenerateSigmaPoints outputs a matrix of sigma points based on the state and state covariance matrices
+ * @param Xsig_out The matrix of sigma points
+ */
 void UKF::GenerateSigmaPoints(MatrixXd* Xsig_out) {
 
   // Set state dimension
@@ -142,26 +149,13 @@ void UKF::GenerateSigmaPoints(MatrixXd* Xsig_out) {
   // Define spreading parameter
   lambda = lambda_;
 
-  // Set example state
-  MatrixXd x = x_;
-  x << 5.7441,
-       1.3800,
-       2.2049,
-       0.5015,
-       0.3528;
+  // Set state matrix
+  VectorXd x = x_;
 
-  // Set example covariance matrix
+  // Set state covariance matrix
   MatrixXd P = P_;
-  P << 0.0043, -0.0013, 0.0030, -0.0022, -0.0020,
-       -0.0013, 0.0077, 0.0011,  0.0071, 0.0060,
-       0.0030, 0.0011, 0.0054, 0.0007, 0.0008,
-       -0.0022, 0.0071, 0.0007, 0.0098, 0.0100,
-       -0.0020, 0.0060, 0.0008, 0.0100, 0.0123;
 
-  // Create sigma point matrix
-  Matrix Xsig_pred = Xsig_pred_;
-
-  // Calculate square root of P
+  // Create square root of state covariance matrix
   MatrixXd A = P.llt().matrixL();
 
   // Calculate sigma points
@@ -172,7 +166,76 @@ void UKF::GenerateSigmaPoints(MatrixXd* Xsig_out) {
     Xsig_pred.col(i + 1 + n_x) = x - sqrt(lambda + n_x) * A.col(i);
   }
 
-  // Print result
+  // Print result for debugging
   std::cout << "Xsig_pred = " << std::endl << Xsig_pred << std::endl;
+
+  // Write result to function parameter
+  *Xsig_out = Xsig_pred;
+
+}
+
+/**
+ * AugmentedSigmaPoints outputs a matrix of sigma points based on augmented state and augmented state covariance matrices
+ * @param Xsig_out The matrix of sigma points
+ */
+void AugmentedSigmaPoints(MatrixXd* Xsig_out) {
+
+  // Set state dimension
+  int n_x = n_x_; // 5
+
+  // Set augmented dimension
+  int n_aug = n_aug_; // 7
+
+  // Set process noise standard deviation longitudinal acceleration in m/s^2
+  double std_a = std_a_; // 0.2
+
+  // Set process noise standard deviation yaw acceleration in rad/s^2
+  double std_yawdd = std_yawdd_; // 0.2
+
+  // Set augmented spreading parameter
+  lambda_ = 3 - n_aug;
+  double lambda = lambda_; // 3 - n_aug
+
+  // Set state matrix
+  VectorXd x = x_;
+
+  // Set state covariance matrix
+  MatrixXd P = P_;
+
+  // Create augmented mean vector
+  VectorXd x_aug = VectorXd(7);
+
+  // Create augmented state covariance
+  MatrixXd P_aug = MatrixXd(7, 7);
+
+  // Create sigma point matrix
+  MatrixXd Xsig_aug = MatrixXd(n_aug, 2 * n_aug + 1);
+
+  // Create augmented mean state
+  x_aug.head(5) = x;
+  x_aug(5) = 0;
+  x_aug(6) = 0;
+
+  // Create augmented state covariance matrix
+  P_aug.fill(0.0);
+  P_aug.topLeftCorner(5, 5) = P;
+  P_aug(5, 5) = std_a * std_a;
+  P_aug(6, 6) = std_yawdd * std_yawdd;
+
+  // Create square root matrix from augmented state covariance matrix
+  MatrixXd L = P_aug.llt().matrixL();
+
+  // Calculate augmented sigma points
+  Xsig_aug.col(0) = x_aug;
+  for (int i = 0; i < n_aug; i++) {
+    Xsig_aug.col(i + 1) = x_aug + sqrt(lambda + n_aug) * L.col(i);
+    Xsig_aug.col(i + 1 + n_aug) = x_aug - sqrt(lambda + n_aug) * L.col(i);
+  }
+
+  // Print result for debugging
+  std::cout << "Xsig_aug = " << std::endl << Xsig_aug << std::endl;
+
+  // Write result to function parameter
+  *Xsig_out = Xsig_aug;
 
 }

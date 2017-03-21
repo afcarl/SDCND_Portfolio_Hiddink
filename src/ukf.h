@@ -104,6 +104,19 @@ public:
    * @param meas_package The measurement at k+1
    */
   void UpdateRadar(MeasurementPackage meas_package);
+
+  /**
+   * GenerateSigmaPoints outputs a matrix of sigma points based on the state and state covariance matrices
+   * @param Xsig_out The matrix of sigma points
+   */
+  void GenerateSigmaPoints(MatrixXd* Xsig_out);
+
+  /**
+   * AugmentedSigmaPoints outputs a matrix of sigma points based on augmented state and augmented state covariance matrices
+   * @param Xsig_out The matrix of sigma points
+   */
+  void AugmentedSigmaPoints(MatrixXd* Xsig_out);
+
 };
 
 #endif /* UKF_H */
