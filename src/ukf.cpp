@@ -45,6 +45,31 @@ UKF::UKF() {
 
   Hint: one or more values initialized above might be wildly off...
   */
+
+  ///* predicted sigma points matrix
+  Xsig_pred_ = MatrixXd(0, 0);
+
+  ///* time when the state is true, in us
+  time_us_ = 0;
+
+  ///* Weights of sigma points
+  weights_;
+
+  ///* State dimension
+  n_x_ = 5;
+
+  ///* Augmented state dimension
+  int n_aug_;
+
+  ///* Sigma point spreading parameter
+  lambda_ = 3 - n_x;
+
+  ///* the current NIS for radar
+  double NIS_radar_;
+
+  ///* the current NIS for laser
+  double NIS_laser_;
+
 }
 
 UKF::~UKF() {}
@@ -60,6 +85,9 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   Complete this function! Make sure you switch between lidar and radar
   measurements.
   */
+
+  Xsig_pred_ = MatrixXd(11, 5);
+  ukf.GenerateSigmaPoints
 }
 
 /**
@@ -104,4 +132,47 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
 
   You'll also need to calculate the radar NIS.
   */
+}
+
+void UKF::GenerateSigmaPoints(MatrixXd* Xsig_out) {
+
+  // Set state dimension
+  int n_x = n_x_;
+
+  // Define spreading parameter
+  lambda = lambda_;
+
+  // Set example state
+  MatrixXd x = x_;
+  x << 5.7441,
+       1.3800,
+       2.2049,
+       0.5015,
+       0.3528;
+
+  // Set example covariance matrix
+  MatrixXd P = P_;
+  P << 0.0043, -0.0013, 0.0030, -0.0022, -0.0020,
+       -0.0013, 0.0077, 0.0011,  0.0071, 0.0060,
+       0.0030, 0.0011, 0.0054, 0.0007, 0.0008,
+       -0.0022, 0.0071, 0.0007, 0.0098, 0.0100,
+       -0.0020, 0.0060, 0.0008, 0.0100, 0.0123;
+
+  // Create sigma point matrix
+  Matrix Xsig_pred = Xsig_pred_;
+
+  // Calculate square root of P
+  MatrixXd A = P.llt().matrixL();
+
+  // Calculate sigma points
+  Xsig_pred.col(0) = x;
+
+  for (int i = 0; i < n_x; i++) {
+    Xsig_pred.col(i + 1) = x + sqrt(lambda + n_x) * A.col(i);
+    Xsig_pred.col(i + 1 + n_x) = x - sqrt(lambda + n_x) * A.col(i);
+  }
+
+  // Print result
+  std::cout << "Xsig_pred = " << std::endl << Xsig_pred << std::endl;
+
 }
