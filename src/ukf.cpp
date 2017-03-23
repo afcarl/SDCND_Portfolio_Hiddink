@@ -5,6 +5,9 @@
  * Initializes Unscented Kalman filter
  */
 UKF::UKF() {
+  // Initialize
+  is_initialized_ = false;
+
   // if this is false, laser measurements will be ignored (except during init)
   use_laser_ = true;
 
@@ -88,18 +91,30 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
   measurements.
   */
 
+  is_initialized_ = true;
+
+  // Declare function variables
   bool use_laser = use_laser_;
   bool use_radar = use_radar_;
-
-  if use_laser == true {
-
-  } else if use_radar == true {
-
-  }
+  double delta_t = previous_timestamp - measurement_package.timestamp_;
 
   MatrixXd Xsig_pred = Xsig_pred_;
+  UKF ukf = UKF();
+
+  if use_laser == true {
+    // Generate laser sigma points
+    ukf.GenerateSigmaPoints(&Xsig_pred)
+
+
+  } else if use_radar == true {
+    // Generate radar sigma points
+    ukf.GenerateAugmentedSigmaPoints(&Xsig_pred)
+  }
+
+
   ukf.GenerateSigmaPoints(&Xsig_pred);
 
+  // Print result
   std:cout << "Xsig = " << std::endl << Xsig << std::endl;
 
 }
@@ -262,7 +277,7 @@ void UKF::GenerateSigmaPoints(MatrixXd* Xsig_out) {
   }
 
   // Print result for debugging
-  std::cout << "Xsig_pred = " << std::endl << Xsig_pred << std::endl;
+  // std::cout << "Xsig_pred = " << std::endl << Xsig_pred << std::endl;
 
   // Write result to function parameter
   *Xsig_out = Xsig_pred;
@@ -273,7 +288,7 @@ void UKF::GenerateSigmaPoints(MatrixXd* Xsig_out) {
  * AugmentedSigmaPoints outputs a matrix of sigma points based on augmented state and augmented state covariance matrices
  * @param Xsig_out The matrix of sigma points
  */
-void AugmentedSigmaPoints(MatrixXd* Xsig_out) {
+void GenerateAugmentedSigmaPoints(MatrixXd* Xsig_out) {
 
   // Set state dimension
   int n_x = n_x_; // 5

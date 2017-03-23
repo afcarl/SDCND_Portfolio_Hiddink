@@ -118,7 +118,7 @@ public:
    * AugmentedSigmaPoints outputs a matrix of sigma points based on augmented state and augmented state covariance matrices
    * @param Xsig_out The matrix of sigma points
    */
-  void AugmentedSigmaPoints(MatrixXd* Xsig_out);
+  void GenerateAugmentedSigmaPoints(MatrixXd* Xsig_out);
 
 };
 
