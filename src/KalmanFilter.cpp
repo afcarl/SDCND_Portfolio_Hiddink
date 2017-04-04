@@ -4,16 +4,19 @@
 class KalmanFilter {
 public:
 
-  // Constructor
   KalmanFilter() {}
 
-  // Destructor
   virtual ~KalmanFilter() {}
 
-  // Initialize Unscented Kalman Filter
   void Init() {
 
-    // initilazation of variables here
+    // Initialize variables
+    n_z_ = meas_package.raw_measurements_.rows();
+
+    n_x_ = 5;
+    n_aug_ = 7;
+
+    n_sigma_ = 2 * n_aug_ + 1;
 
   }
 
@@ -37,14 +40,18 @@ public:
    * @param meas_package The measurement at k+1
    */
   void UpdateLidar(MeasurementPackage meas_package) {
-    /**
-    TODO:
 
-    Complete this function! Use lidar data to update the belief about the object's
-    position. Modify the state vector, x_, and covariance, P_.
+    // Localize scope of instance variables
+    n_z = n_z_;
+    n_sigma = n_sigma_;
 
-    You'll also need to calculate the lidar NIS.
-    */
+    VectorXd z_pred(n_z);
+    MatrixXd S(n_z, n_z);
+    MatrixXd Zsig(n_z, n_sigma)
+
+    Prediction()
+
+
 
   }
 

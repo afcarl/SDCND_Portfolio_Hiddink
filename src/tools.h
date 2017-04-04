@@ -2,7 +2,6 @@
 #define TOOLS_H_
 #include <vector>
 #include "Eigen/Dense"
-#include <iostream>
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
@@ -17,6 +16,12 @@ public:
   // Destructor
   virtual ~Tools();
 
+  // Helper method to calculate RMSE
+  VectorXd CalculateRMSE(const vector<VectorXd> &estimations, const vector<VectorXd> &ground_truth);
+
+  void GenerateSigmaPoints();
+  void GenerateAugmentedSigmaPoints();
+  void SigmaPointPrediction();
   
 };
 
