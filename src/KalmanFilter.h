@@ -14,13 +14,9 @@ using Eigen::VectorXd;
 class KalmanFilter {
 public:
 
-  int n_z_;
-
   KalmanFilter();
 
   virtual ~KalmanFilter();
-
-  void Init();
 
   void Prediction(double delta_t);
 
@@ -28,6 +24,15 @@ public:
 
   void UpdateRadar(MeasurementPackage meas_package);
 
+private:
+  int n_aug_;
+  int n_sigma_;
+
+  VectorXd x_;
+  MatrixXd P_;
+
+  MatrixXd Xsig_pred_;
+  MatrixXd Xsig_aug_;
 };
 
 #endif /* KALMAN_FILTER_H_ */

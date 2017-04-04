@@ -14,30 +14,6 @@ FusionUKF::FusionUKF() {
   x_ = VectorXd(5);
   P_ = MatrixXd(5, 5);
 
-  std_a_ = 0.2;
-  std_yawdd_ = 0.2;
-
-  std_laspx_ = 0.15;
-  std_laspy_ = 0.15;
-
-  std_radr_ = 0.3;
-  std_radphi_ = 0.03;
-  std_radrd_ = 0.3;
-
-  Xsig_pred_ = MatrixXd(11, 5);
-  time_us_ = 0;
-
-  VectorXd weights_ = VectorXd(0);
-
-  n_x_ = 5;
-  n_aug_ = 7;
-  n_z_ = 3;
-
-  lambda_ = 3 - n_x;
-
-  NIS_radar_ = 0;
-  NIS_laser_ = 0;
-
 }
 
 FusionUKF::~FusionUKF() {}
@@ -58,6 +34,7 @@ void FusionUKF::ProcessMeasurement(MeasurementPackage meas_package) {
     previous_timestamp_ = meas_package.timestamp_;
 
     // Initialize state vector x
+    VectorXd x = x_;
     if (meas_package.sensor_type_ == MeasurementPackage::RADAR) {
       double rho = meas_package.raw_measurements_[0];
       double phi = meas_package.raw_measurements_[1];
