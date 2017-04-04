@@ -1,12 +1,21 @@
+/*
 
-#include <iostream>
+Self-Driving Car Nanodegree Program
+Project 7 - Unscented Kalman Filters
+Created by Neil Hiddink on 4/3/2017
+
+ */
+
+#include "FusionUKF.h"
+#include "measurement_package.h"
+
 #include "Eigen/Dense"
 #include <vector>
-#include "ukf.h"
-#include "measurement_package.h"
-#include <fstream>
-#include <sstream>
+
 #include <stdlib.h>
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
 using namespace std;
 using Eigen::MatrixXd;
