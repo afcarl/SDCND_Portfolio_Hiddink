@@ -21,6 +21,7 @@ public:
   void SigmaPointPrediction(double delta_t, const MatrixXd &Xsig_aug, MatrixXd &Xsig_pred);
 
 private:
+  
   int n_x_;
   int n_aug_;
   double lambda_;
