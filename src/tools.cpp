@@ -30,9 +30,9 @@ Tools::Tools() {
 
 }
 
-virtual ~Tools() {}
+virtual Tools::~Tools() {}
 
-VectorXd CalculateRMSE(const vector<VectorXd> &estimations, const vector<VectorXd> &ground_truth) {
+VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations, const vector<VectorXd> &ground_truth) {
 
   VectorXd rmse(4);
 
@@ -63,14 +63,10 @@ VectorXd CalculateRMSE(const vector<VectorXd> &estimations, const vector<VectorX
   rmse = rmse.array().sqrt();
 
   return rmse;
-  
-}
-
-MatrixXd GenerateSigmaPoints() {
 
 }
 
-void GenerateAugmentedSigmaPoints(const VectorXd &x, const MatrixXd &P, MatrixXd &Xsig_aug) {
+void Tools::GenerateAugmentedSigmaPoints(const VectorXd &x, const MatrixXd &P, MatrixXd &Xsig_aug) {
 
   // Set state dimension
   int n_x = x.rows();
@@ -110,7 +106,7 @@ void GenerateAugmentedSigmaPoints(const VectorXd &x, const MatrixXd &P, MatrixXd
   }
 }
 
-void SigmaPointPrediction(double delta_t, const MatrixXd &Xsig_aug, MatrixXd &Xsig_pred) {
+void Tools::SigmaPointPrediction(double delta_t, const MatrixXd &Xsig_aug, MatrixXd &Xsig_pred) {
 
   for (int i = 0; i < n_sigma_; i++) {
 

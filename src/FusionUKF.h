@@ -24,6 +24,10 @@ private:
 
   bool is_initialized_;
 
+  // Previous measurement
+  long previous_timestamp_;
+  MeasurementPackage previous_measurement_;
+
   bool use_laser_;
   bool use_radar_;
 

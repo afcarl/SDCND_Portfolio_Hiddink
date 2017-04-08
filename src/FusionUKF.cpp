@@ -8,6 +8,8 @@ FusionUKF::FusionUKF() {
 
   is_initialized_ = false;
 
+  previous_timestamp_ = 0;
+
   use_laser_ = true;
   use_radar_ = true;
 

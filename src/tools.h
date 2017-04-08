@@ -21,32 +21,32 @@ public:
   void SigmaPointPrediction(double delta_t, const MatrixXd &Xsig_aug, MatrixXd &Xsig_pred);
 
 private:
-  
+
   int n_x_;
   int n_aug_;
   double lambda_;
   int n_sigma_;
 
   // Process noise standard deviation longitudinal acceleration in m/s^2
-  std_a_;
+  double std_a_;
 
   // Process noise standard deviation yaw acceleration in rad/s^2
-  std_yawdd_;
+  double std_yawdd_;
 
   // Laser measurement noise standard deviation position1 in m
-  std_laspx_;
+  double std_laspx_;
 
   // Laser measurement noise standard deviation position2 in m
-  std_laspy_;
+  double std_laspy_;
 
   // Radar measurement noise standard deviation radius in m
-  std_radr_;
+  double std_radr_;
 
   // Radar measurement noise standard deviation angle in rad
-  std_radphi_;
+  double std_radphi_;
 
   // Radar measurement noise standard deviation radius change in m/s
-  std_radrd_;
+  double std_radrd_;
 };
 
 #endif /* TOOLS_H_ */
