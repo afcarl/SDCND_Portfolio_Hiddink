@@ -1,4 +1,5 @@
 #include "FusionUKF.h"
+#include "KalmanFilter.h"
 #include "tools.h"
 #include <iostream>
 
@@ -15,6 +16,8 @@ FusionUKF::FusionUKF() {
 
   x_ = VectorXd(5);
   P_ = MatrixXd(5, 5);
+
+  kf_ = KalmanFilter();
 
 }
 
@@ -65,11 +68,11 @@ void FusionUKF::ProcessMeasurement(MeasurementPackage meas_package) {
    double dt = (meas_package.timestamp_ - previous_timestamp_) / 1000000.0;
 
    while (dt > 0.1) {
-     KalmanFilter::Prediction(0.05);
+     kf_.Prediction(0.05);
      dt -= 0.05;
    }
 
-   KalmanFilter::Prediction(dt);
+   kf_.Prediction(dt);
 
    previous_timestamp_ = meas_package.timestamp_;
    previous_measurement_ = meas_package;
@@ -78,8 +81,8 @@ void FusionUKF::ProcessMeasurement(MeasurementPackage meas_package) {
     *   Update
     ************************/
     if (meas_package.sensor_type_ == MeasurementPackage::RADAR and use_radar_) {
-      KalmanFilter::UpdateRadar(meas_package);
+      kf_.UpdateRadar(meas_package);
     } else if (meas_package.sensor_type_ == MeasurementPackage::LASER and use_laser_) {
-      KalmanFilter::UpdateLidar(meas_package);
+      kf_.UpdateLidar(meas_package);
     }
 }

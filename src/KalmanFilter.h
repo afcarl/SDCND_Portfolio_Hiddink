@@ -33,6 +33,9 @@ private:
 
   MatrixXd Xsig_pred_;
   MatrixXd Xsig_aug_;
+
+  Tools tools_;
+
 };
 
 #endif /* KALMAN_FILTER_H_ */

@@ -114,7 +114,7 @@ int main(int argc, char* argv[]) {
   }
 
   // Create a UKF instance
-  UKF ukf;
+  FusionUKF ukf;
 
   size_t number_of_measurements = measurement_pack_list.size();
 

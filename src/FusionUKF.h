@@ -15,6 +15,9 @@ using std::vector;
 class FusionUKF {
 public:
 
+  VectorXd x_;
+  MatrixXd P_;
+
   FusionUKF();
   virtual ~FusionUKF();
 
@@ -31,8 +34,7 @@ private:
   bool use_laser_;
   bool use_radar_;
 
-  VectorXd x_;
-  MatrixXd P_;
+  KalmanFilter kf_;
 
 };
 
