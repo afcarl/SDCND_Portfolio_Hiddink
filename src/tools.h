@@ -20,6 +20,8 @@ public:
 
   void SigmaPointPrediction(double delta_t, const MatrixXd &Xsig_aug, MatrixXd &Xsig_pred);
 
+  void PredictMeanAndCovariance(const MatrixXd &Xsig_pred, VectorXd &x, MatrixXd &P);
+  
 private:
 
   int n_x_;

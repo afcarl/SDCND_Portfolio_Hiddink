@@ -1,7 +1,4 @@
 #include "FusionUKF.h"
-#include "KalmanFilter.h"
-#include "tools.h"
-#include <iostream>
 
 using namespace std;
 
@@ -16,8 +13,6 @@ FusionUKF::FusionUKF() {
 
   x_ = VectorXd(5);
   P_ = MatrixXd(5, 5);
-
-  kf_ = KalmanFilter();
 
 }
 

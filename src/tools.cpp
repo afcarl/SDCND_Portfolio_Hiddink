@@ -150,4 +150,23 @@ void Tools::SigmaPointPrediction(double delta_t, const MatrixXd &Xsig_aug, Matri
     Xsig_pred(3, i) = yaw_p;
     Xsig_pred(4, i) = yawd_p;
   }
+
+void PredictMeanAndCovariance(const MatrixXd &Xsig_pred, VectorXd &x, MatrixXd &P) {
+  // Predicted state mean
+  x.fill(0.0);
+  for (int i = 0; i < n_sigma_; i++) { // Iterate over sigma points
+    x = x + weights_(i) * Xsig_pred.col(i);
+  }
+
+  // Predicted state covariance matrix
+  P.fill(0.0);
+  for (int i = 0; i < n_sigma_; i++) { // Iterate over sigma points
+    // State difference
+    VectorXd x_diff = Xsig_pred.col(i) - Xsig_pred.col(0);
+    x_diff(3) = normalizeRadiansPiToMinusPi(x_diff(3));
+
+    P = P + weights_(i) * x_diff * x_diff.transpose();
+  }
+}
+
 }

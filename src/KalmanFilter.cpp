@@ -1,20 +1,21 @@
 #include "KalmanFilter.h"
 #include "FusionUKF.h"
 
-KalmanFilter::KalmanFilter() {}
+KalmanFilter::KalmanFilter() {
 
-virtual KalmanFilter::~KalmanFilter() {}
+
+}
+
+KalmanFilter::~KalmanFilter() {}
 
 void KalmanFilter::Init() {
   // Initialize variables
-  n_z_ = meas_package.raw_measurements_.rows();
+  int n_z_ = meas_package.raw_measurements_.rows();
 
-  n_x_ = 5;
-  n_aug_ = 7;
+  int n_x_ = 5;
+  int n_aug_ = 7;
 
-  n_sigma_ = 2 * n_aug_ + 1;
-
-  tools_ = Tools();
+  int n_sigma_ = 2 * n_aug_ + 1;
 
 }
 
@@ -39,13 +40,9 @@ void KalmanFilter::Prediction(double delta_t) {
   */
 void KalmanFilter::UpdateLidar(MeasurementPackage meas_package) {
 
-  // Localize scope of instance variables
-  n_z = n_z_;
-  n_sigma = n_sigma_;
-
-  VectorXd z_pred(n_z);
-  MatrixXd S(n_z, n_z);
-  MatrixXd Zsig(n_z, n_sigma)
+  VectorXd z_pred(n_z_);
+  MatrixXd S(n_z_, n_z_);
+  MatrixXd Zsig(n_z_, n_sigma_)
 
   KalmanFilter::Prediction()
 
@@ -56,66 +53,48 @@ void KalmanFilter::UpdateLidar(MeasurementPackage meas_package) {
   * @param meas_package The measurement at k+1
   */
 void KalmanFilter::UpdateRadar(MeasurementPackage meas_package) {
-  /**
-  TODO:
-
-  Complete this function! Use radar data to update the belief about the object's
-  position. Modify the state vector, x_, and covariance, P_.
-
-  You'll also need to calculate the radar NIS.
-  */
-
-  // Set state dimension
-  int n_x = n_x_; // 5
-
-  // Set augmented dimension
-  int n_aug = n_aug_; // 7
-
-  // Set measurement dimension
-  int n_z = n_z_; // 3
 
   // Define spreading parameter
-  double lambda = 3 - n_aug;
+  double lambda = 3 - n_aug_;
 
   // Set vector for weights
-  VectorXd weights = weights_;
-  weights = VectorXd(2*n_aug+1);
-  double weight_0 = lambda / (lambda + n_aug);
-  weights(0) = weight_0;
-  for (int i = 0; i < 2 * n_aug + 1; i++) {
-    double weight = 0.5 / (n_aug + lambda);
-    weights(i) = weight;
+  weights_ = VectorXd(2*n_aug_+1);
+  double weight_0 = lambda / (lambda + n_aug_);
+  weights_(0) = weight_0;
+  for (int i = 0; i < 2 * n_aug_ + 1; i++) {
+    double weight = 0.5 / (n_aug_ + lambda);
+    weights_(i) = weight;
   }
 
   MatrixXd Xsig_pred = Xsig_pred_;
-  Xsig_pred = MatrixXd(n_x, 2 * n_aug + 1);
+  Xsig_pred = MatrixXd(n_x_, 2 * n_aug_ + 1);
 
   // Vector for predicted state mean
   VectorXd x = x_;
-  x = VectorXd(n_x);
+  x = VectorXd(n_x_);
 
   // Matrix for predicted state variance
   MatrixXd P = P_;
-  P = MatrixXd(n_x, n_x) ;
+  P = MatrixXd(n_x_, n_x_) ;
 
   // Matrix with sigma points in measurement space
-  MatrixXd Zsig = MatrixXd(n_z, 2 * n_aug + 1);
+  MatrixXd Zsig = MatrixXd(n_z_, 2 * n_aug_ + 1);
 
   // Vector for mean predicted measurement
-  VectorXd z_pred = VectorXd(n_z);
+  VectorXd z_pred = VectorXd(n_z_);
 
   // Matrix for predicted measurement covariance
-  MatrixXd S = MatrixXd(n_z, n_z);
+  MatrixXd S = MatrixXd(n_z_, n_z_);
 
   // Vector for incoming radar measurement
-  VectorXd z = VectorXd(n_z);
+  VectorXd z = VectorXd(n_z_);
 
   // Matrix for cross-correlation Tc
-  MatrixXd Tc = MatrixXd(n_x, n_z);
+  MatrixXd Tc = MatrixXd(n_x_, n_z_);
 
   // Calculate cross-correlation matrix
   Tc.fill(0.0);
-  for (int i = 0; i < 2 * n_aug + 1; i++) { // for all 2n + 1 sigma points
+  for (int i = 0; i < 2 * n_aug_ + 1; i++) { // for all 2n + 1 sigma points
 
     // Residual
     VectorXd z_diff = Zsig.col(i) - z_pred;

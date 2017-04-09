@@ -1,10 +1,11 @@
 #ifndef FusionUKF_H
 #define FusionUKF_H
 
-#include "measurement_package.h"
 #include "KalmanFilter.h"
 #include "tools.h"
+#include <iostream>
 
+#include "measurement_package.h"
 #include "Eigen/Dense"
 #include <vector>
 
@@ -17,6 +18,8 @@ public:
 
   VectorXd x_;
   MatrixXd P_;
+
+  KalmanFilter kf_;
 
   FusionUKF();
   virtual ~FusionUKF();
@@ -33,8 +36,6 @@ private:
 
   bool use_laser_;
   bool use_radar_;
-
-  KalmanFilter kf_;
 
 };
 

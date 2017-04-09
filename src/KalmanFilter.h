@@ -1,8 +1,8 @@
 #ifndef KALMAN_FILTER_H
 #define KALMAN_FILTER_H
 
-#include "FusionUKF.h"
 #include "Tools.h"
+#include "measurement_package.h"
 #include <iostream>
 #include "Eigen/Dense"
 #include <vector>
@@ -14,9 +14,13 @@ using Eigen::VectorXd;
 class KalmanFilter {
 public:
 
+  Tools tools_;
+
   KalmanFilter();
 
   virtual ~KalmanFilter();
+
+  void Init();
 
   void Prediction(double delta_t);
 
@@ -33,8 +37,6 @@ private:
 
   MatrixXd Xsig_pred_;
   MatrixXd Xsig_aug_;
-
-  Tools tools_;
 
 };
 
