@@ -3,21 +3,18 @@
 
 KalmanFilter::KalmanFilter() {
 
+  n_x_ = 5;
+  n_aug_ = 7;
+
+  n_sigma_ = 2 * n_aug_ + 1;
+  n_z_ = meas_package.raw_measurements_.rows();
+
 
 }
 
 KalmanFilter::~KalmanFilter() {}
 
-void KalmanFilter::Init() {
-  // Initialize variables
-  int n_z_ = meas_package.raw_measurements_.rows();
-
-  int n_x_ = 5;
-  int n_aug_ = 7;
-
-  int n_sigma_ = 2 * n_aug_ + 1;
-
-}
+void KalmanFilter::Init() {}
 
 /**
   * Prediction Predicts sigma points, the state, and the state covariance
@@ -42,7 +39,7 @@ void KalmanFilter::UpdateLidar(MeasurementPackage meas_package) {
 
   VectorXd z_pred(n_z_);
   MatrixXd S(n_z_, n_z_);
-  MatrixXd Zsig(n_z_, n_sigma_)
+  MatrixXd Zsig(n_z_, n_sigma_);
 
   KalmanFilter::Prediction()
 

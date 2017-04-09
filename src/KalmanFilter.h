@@ -15,6 +15,20 @@ class KalmanFilter {
 public:
 
   Tools tools_;
+  MeasurementPackage meas_package;
+
+  VectorXd weights_;
+
+  int n_x_;
+  int n_aug_;
+  int n_sigma_;
+  int n_z_;
+
+  VectorXd x_;
+  MatrixXd P_;
+
+  MatrixXd Xsig_pred_;
+  MatrixXd Xsig_aug_;
 
   KalmanFilter();
 
@@ -24,19 +38,12 @@ public:
 
   void Prediction(double delta_t);
 
-  void UpdateLidar(MeasurementPackage meas_package);
+  void UpdateLidar(MeasurementPackage meas_package, VectorXd &x,
+                   MatrixXd &P, const MatrixXd &Xsig_pred,
+                   const VectorXd &z_pred, const MatrixXd &S,
+                   const MatrixXd &Zsig);
 
   void UpdateRadar(MeasurementPackage meas_package);
-
-private:
-  int n_aug_;
-  int n_sigma_;
-
-  VectorXd x_;
-  MatrixXd P_;
-
-  MatrixXd Xsig_pred_;
-  MatrixXd Xsig_aug_;
 
 };
 
