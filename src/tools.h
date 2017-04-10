@@ -21,8 +21,6 @@ public:
   void SigmaPointPrediction(double delta_t, const MatrixXd &Xsig_aug, MatrixXd &Xsig_pred);
 
   void PredictMeanAndCovariance(const MatrixXd &Xsig_pred, VectorXd &x, MatrixXd &P);
-  
-private:
 
   int n_x_;
   int n_aug_;
@@ -49,6 +47,7 @@ private:
 
   // Radar measurement noise standard deviation radius change in m/s
   double std_radrd_;
+
 };
 
 #endif /* TOOLS_H_ */

@@ -9,7 +9,6 @@ KalmanFilter::KalmanFilter() {
   n_sigma_ = 2 * n_aug_ + 1;
   n_z_ = meas_package.raw_measurements_.rows();
 
-
 }
 
 KalmanFilter::~KalmanFilter() {}
@@ -35,13 +34,89 @@ void KalmanFilter::Prediction(double delta_t) {
   * Updates the state and the state covariance matrix using a laser measurement
   * @param meas_package The measurement at k+1
   */
-void KalmanFilter::UpdateLidar(MeasurementPackage meas_package) {
+void UpdateLidar(MeasurementPackage meas_package, VectorXd &x,
+                 MatrixXd &P, const MatrixXd &Xsig_pred,
+                 const VectorXd &z_pred, const MatrixXd &S,
+                 const MatrixXd &Zsig) {
 
-  VectorXd z_pred(n_z_);
-  MatrixXd S(n_z_, n_z_);
-  MatrixXd Zsig(n_z_, n_sigma_);
+  int n_z = meas_package.raw_measurements_.rows();
 
-  KalmanFilter::Prediction()
+  VectorXd z_pred(n_z);
+  MatrixXd S(n_z, n_z);
+  MatrixXd Zsig(n_z, n_sigma_);
+
+  /**************
+   * PREDICTION
+   *************/
+
+  // Transform sigma points into measurement space
+  for (int i = 0; i < n_sigma_; i++) {
+    double p_x = Xsig_pred(0, i);
+    double p_y = Xsig_pred(1, i);
+
+    Zsig(0, i) = p_x;
+    Zsig(1, i) = p_y;
+  }
+
+  // Mean predicted measurement
+  z_pred.fill(0.0);
+  for (int i = 0; i < n_sigma_; i++) {
+    z_pred = z_pred + weights_(i) * Zsig.col(i);
+  }
+
+  // Measurement covariance matrix S
+  S.fill(0.0);
+  for (int i = 0; i < n_sigma_; i++) {
+    // Residual
+    VectorXd z_diff = Zsig.col(i) - z_pred;
+    S = S + weights_(i) * z_diff * z_diff.transpose();
+  }
+
+  // Add measurement noise covariance matrix
+  MatrixXd R = MatrixXd(n_z, n_z);
+  R << tools_.std_laspx_ * tools_.std_laspx_, 0, 0, tools_.std_laspy_ * tools_.std_laspy_;
+
+  S = S + R;
+
+  /**************
+   * UPDATE
+   *************/
+
+   n_z = z_pred.rows();
+   n_x = x.rows();
+
+   // Create matrix for cross correlation Tc
+   MatrixXd Tc = MatrixXd(n_x, n_z);
+
+   // Calculate cross correlation matrix
+   Tc.fill(0.0);
+   for (int i = 0; i < n_sigma_; i++) {
+
+     // Residual
+     VectorXd z_diff = Zsig.col(i) - z_pred;
+     z_diff(1) = normalizeRadiansPiToMinusPi(z_diff(1));
+
+     // State difference
+     VectorXd x_diff = Xsig_pred.col(i) - x;
+     x_diff(3) = normalizeRadiansPiToMinusPi(x_diff(3));
+
+     Tc = Tc + weights_(i) * x_diff * z_diff.transpose();
+   }
+
+   // Kalman gain K
+   MatrixXd K = Tc * S.inverse();
+
+   // Residual
+   VectorXd z_diff = z - z_pred;
+
+   z_diff(1) = normalizeRadiansPiToMinusPi(z_diff(1));
+
+   // Update state mean and covariance matrix
+   x = x + K * z_diff;
+   P = P - K * S * K.transpose();
+
+  // Normalized Innovation Squared (NIS) Measurement Gate/Threshold
+  NIS_lidar_ = ((meas_package.raw_measurements_ - z_pred).transpose()) * S.inverse() * (meas_package.raw_measurements_ - z_pred);
 
 }
 

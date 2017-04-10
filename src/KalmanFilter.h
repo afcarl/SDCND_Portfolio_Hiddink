@@ -1,8 +1,10 @@
 #ifndef KALMAN_FILTER_H
 #define KALMAN_FILTER_H
 
-#include "Tools.h"
+#include "tools.h"
 #include "measurement_package.h"
+#include "ground_truth_package.h"
+
 #include <iostream>
 #include "Eigen/Dense"
 #include <vector>
@@ -29,6 +31,9 @@ public:
 
   MatrixXd Xsig_pred_;
   MatrixXd Xsig_aug_;
+
+  double NIS_lidar_;
+  double NIS_radar_;
 
   KalmanFilter();
 
