@@ -48,7 +48,10 @@ public:
                    const VectorXd &z_pred, const MatrixXd &S,
                    const MatrixXd &Zsig);
 
-  void UpdateRadar(MeasurementPackage meas_package);
+  void UpdateRadar(MeasurementPackage meas_package, VectorXd &x,
+                   MatrixXd &P, const MatrixXd &Xsig_pred,
+                   const VectorXd &z_pred, const MatrixXd &S,
+                   const MatrixXd &Zsig);
 
 };
 
