@@ -93,11 +93,11 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
 
     // Initialize state covariance matrix
     P_ = MatrixXd(5, 5);
-    P_ <<     0.0043,   -0.0013,    0.0030,   -0.0022,   -0.0020,
-             -0.0013,    0.0077,    0.0011,    0.0071,    0.0060,
-              0.0030,    0.0011,    0.0054,    0.0007,    0.0008,
-             -0.0022,    0.0071,    0.0007,    0.0098,    0.0100,
-             -0.0020,    0.0060,    0.0008,    0.0100,    0.0123;
+    P_ <<     1, 0, 0, 0, 0,
+              0, 1, 0, 0, 0,
+              0, 0, 1, 0, 0,
+              0, 0, 0, 1, 0,
+              0, 0, 0, 0, 1;
 
     is_initialized_ = true;
     return;
@@ -271,10 +271,16 @@ void UKF::SigmaPointPrediction(double delta_t, const MatrixXd &Xsig_aug, MatrixX
 void UKF::PredictMeanAndCovariance(const MatrixXd &Xsig_pred, VectorXd &x, MatrixXd &P) {
 
   // Predicted state mean
+
+  // Vectorized operation approach:
+  x = Xsig_pred * weights_;
+
+  /*
   x.fill(0.0);
   for (int i = 0; i < n_sigma_; i++) {  //iterate over sigma points
     x = x + weights_(i) * Xsig_pred.col(i);
   }
+  */
 
   // Predicted state covariance matrix
   P.fill(0.0);
@@ -292,6 +298,11 @@ void UKF::PredictLidarMeasurement(const MatrixXd &Xsig_pred, MatrixXd &Zsig, Vec
   int n_z = z_pred.rows();
 
   // Transform sigma points into measurement space
+
+  // Eigen Block Operation approach:
+  Zsig = Xsig_pred.block(0, 0, n_z, n_sigma_);
+
+  /*
   for (int i = 0; i < n_sigma_; i++) {
     double p_x = Xsig_pred(0, i);
     double p_y = Xsig_pred(1, i);
@@ -299,6 +310,7 @@ void UKF::PredictLidarMeasurement(const MatrixXd &Xsig_pred, MatrixXd &Zsig, Vec
     Zsig(0, i) = p_x;
     Zsig(1, i) = p_y;
   }
+  */
 
   // Mean predicted measurement
   z_pred.fill(0.0);
