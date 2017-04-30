@@ -12,8 +12,10 @@
 
 #include "particle_filter.h"
 
+using namespace std;
+
 void ParticleFilter::init(double x, double y, double theta, double std[]) {
-	// TODO: Set the number of particles. Initialize all particles to first position (based on estimates of
+	// Set the number of particles. Initialize all particles to first position (based on estimates of
 	//   x, y, theta and their uncertainties from GPS) and all weights to 1.
 	// Add random Gaussian noise to each particle.
 	// NOTE: Consult particle_filter.h for more information about this method (and others in this file).
@@ -25,13 +27,13 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	//   Resize weights matrix according to number of particles
 	weights.resize(num_particles);
 
-	//   Create a random generator object
-	default_random_engine gen;
-
 	//   Create Gaussian normal distributions for x, y, and theta
 	normal_distribution<double> dist_x(x, std[0]);
 	normal_distribution<double> dist_y(y, std[1]);
 	normal_distribution<double> dist_theta(theta, std[2]);
+
+	//   Create a random generator object
+	default_random_engine gen;
 
 	//   Generate random Particles with the Gaussian distributions
 	for (i = 0; i < num_particles, i++) {
@@ -54,10 +56,43 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 }
 
 void ParticleFilter::prediction(double delta_t, double std_pos[], double velocity, double yaw_rate) {
-	// TODO: Add measurements to each particle and add random Gaussian noise.
+	// Add measurements to each particle and add random Gaussian noise.
 	// NOTE: When adding noise you may find std::normal_distribution and std::default_random_engine useful.
 	//  http://en.cppreference.com/w/cpp/numeric/random/normal_distribution
 	//  http://www.cplusplus.com/reference/random/default_random_engine/
+
+	//   Create Gaussian normal distributions for noise in x, y, and theta
+	normal_distribution<double> noise_x(0, std_pos[0]);
+	normal_distribution<double> noise_y(0, std_pos[1]);
+	normal_distribution<double> noise_theta(0, std_pos[2]);
+
+	//   Create a random generator object
+	default_random_engine gen;
+
+	//   If yaw_rate is zero, set it to a non-zero value
+	if(abs(yaw_rate) < 0.0001) {
+		yaw_rate = 0.0001;
+	} else {
+		// Generate sample Particles with added noise in x, y, and theta (Bicycle Model)
+		for (i = 0; i < len(particles); i++) {
+
+			// Update x for non-zero yaw_rate
+			p.x = p.x + (velocity / yaw_rate) * (sin(p.theta + (yaw_rate * delta_t)) - sin(p.theta))
+			// Add noise
+			p.x += noise_x(gen);
+
+			// Update y for non-zero yaw_rate
+			p.y = p.y + (velocity / yaw_rate) * (cos(p.theta + (yaw_rate * delta_t)) - cos(p.theta))
+			// Add noise
+			p.y += noise_y(gen);
+
+			// Update theta for non-zero yaw_rate
+			p.theta = p.theta + (yaw_rate * delta_t);
+			// Add noise
+			p.theta = noise_theta(gen);
+		}
+	}
+
 
 }
 
