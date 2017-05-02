@@ -241,3 +241,10 @@ void ParticleFilter::write(std::string filename) {
 	}
 	dataFile.close();
 }
+
+/*
+* Calculates the bivariate normal pdf of a point given a mean and std and assuming zero correlation
+*/
+inline double multi_gauss_prob(double x, double y, double mu_x, double mu_y, double sig_x, double sig_y) {
+  return exp(-((x - mu_x)*(x - mu_x) / (2 * sig_x*sig_x) + (y - mu_y)*(y - mu_y) / (2 * sig_y*sig_y))) / (2 * M_PI*sig_x*sig_y);
+}
