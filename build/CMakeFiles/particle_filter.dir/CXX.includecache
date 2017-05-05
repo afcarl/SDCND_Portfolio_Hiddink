@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/nhiddink/GitHub/CarND_P8_Kidnapped_Vehicle/src/helper_functions.h
+/Users/nhiddink/Github/CarND_P8_Kidnapped_Vehicle/src/helper_functions.h
 sstream
 -
 fstream
@@ -16,9 +16,9 @@ math.h
 vector
 -
 map.h
-/Users/nhiddink/GitHub/CarND_P8_Kidnapped_Vehicle/src/map.h
+/Users/nhiddink/Github/CarND_P8_Kidnapped_Vehicle/src/map.h
 
-/Users/nhiddink/GitHub/CarND_P8_Kidnapped_Vehicle/src/main.cpp
+/Users/nhiddink/Github/CarND_P8_Kidnapped_Vehicle/src/main.cpp
 iostream
 -
 ctime
@@ -28,13 +28,13 @@ iomanip
 random
 -
 particle_filter.h
-/Users/nhiddink/GitHub/CarND_P8_Kidnapped_Vehicle/src/particle_filter.h
+/Users/nhiddink/Github/CarND_P8_Kidnapped_Vehicle/src/particle_filter.h
 helper_functions.h
-/Users/nhiddink/GitHub/CarND_P8_Kidnapped_Vehicle/src/helper_functions.h
+/Users/nhiddink/Github/CarND_P8_Kidnapped_Vehicle/src/helper_functions.h
 
-/Users/nhiddink/GitHub/CarND_P8_Kidnapped_Vehicle/src/map.h
+/Users/nhiddink/Github/CarND_P8_Kidnapped_Vehicle/src/map.h
 
-/Users/nhiddink/GitHub/CarND_P8_Kidnapped_Vehicle/src/particle_filter.cpp
+/Users/nhiddink/Github/CarND_P8_Kidnapped_Vehicle/src/particle_filter.cpp
 random
 -
 algorithm
@@ -44,9 +44,9 @@ iostream
 numeric
 -
 particle_filter.h
-/Users/nhiddink/GitHub/CarND_P8_Kidnapped_Vehicle/src/particle_filter.h
+/Users/nhiddink/Github/CarND_P8_Kidnapped_Vehicle/src/particle_filter.h
 
-/Users/nhiddink/GitHub/CarND_P8_Kidnapped_Vehicle/src/particle_filter.h
+/Users/nhiddink/Github/CarND_P8_Kidnapped_Vehicle/src/particle_filter.h
 helper_functions.h
-/Users/nhiddink/GitHub/CarND_P8_Kidnapped_Vehicle/src/helper_functions.h
+/Users/nhiddink/Github/CarND_P8_Kidnapped_Vehicle/src/helper_functions.h
 

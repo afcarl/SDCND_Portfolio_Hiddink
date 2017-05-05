@@ -1,4 +1,4 @@
-# Install script for directory: /Users/nhiddink/GitHub/CarND_P8_Kidnapped_Vehicle
+# Install script for directory: /Users/nhiddink/Github/CarND_P8_Kidnapped_Vehicle
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -35,5 +35,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/nhiddink/GitHub/CarND_P8_Kidnapped_Vehicle/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/nhiddink/Github/CarND_P8_Kidnapped_Vehicle/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

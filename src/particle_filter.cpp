@@ -189,7 +189,17 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
         }
       }
       if (min_k != -1) {
-        weight *= multi_gauss_prob(obs_map[min_k].x, obs_map[min_k].y, nearest_landmarks[j].x, nearest_landmarks[j].y, std_landmark[0], std_landmark[1]);
+
+        // Create variables for clarity
+        double x = obs_map[min_k].x;
+        double y = obs_map[min_k].y;
+        double mu_x = nearest_landmarks[j].x;
+        double mu_y = nearest_landmarks[j].y;
+        double sig_x = std_landmark[0];
+        double sig_y = std_landmark[1];
+
+        // Calculate weight using multivariate Gaussian equation
+        weight *= exp(-((x - mu_x) * (x - mu_x) / (2 * sig_x * sig_x) + (y - mu_y) * (y - mu_y) / (2 * sig_y * sig_y))) / (2 * M_PI * sig_x * sig_y);
       }
     }
 
@@ -240,11 +250,4 @@ void ParticleFilter::write(std::string filename) {
 		dataFile << particles[i].x << " " << particles[i].y << " " << particles[i].theta << "\n";
 	}
 	dataFile.close();
-}
-
-/*
-* Calculates the bivariate normal pdf of a point given a mean and std and assuming zero correlation
-*/
-inline double multi_gauss_prob(double x, double y, double mu_x, double mu_y, double sig_x, double sig_y) {
-  return exp(-((x - mu_x)*(x - mu_x) / (2 * sig_x*sig_x) + (y - mu_y)*(y - mu_y) / (2 * sig_y*sig_y))) / (2 * M_PI*sig_x*sig_y);
 }
