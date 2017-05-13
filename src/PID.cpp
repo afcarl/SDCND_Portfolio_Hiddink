@@ -1,6 +1,5 @@
 #include "PID.h"
-
-//using namespace std;
+#include <iostream>
 
 PID::PID() {}
 
@@ -24,6 +23,9 @@ void PID::UpdateError(double cte) {
 
   //Derivative Error Calculation
   d_error = cte - p_error;
+
+  //Print out to terminal window
+  std::cout << "P: " << p_error << " | " << "I: " << i_error << " | " << "D: " << d_error << std::endl;
 }
 
 double PID::TotalError() {
