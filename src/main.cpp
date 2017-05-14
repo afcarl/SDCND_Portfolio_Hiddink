@@ -71,28 +71,28 @@ int main()
 
           json msgJson;
 
-          msgJson["throttle"] = 0.8;
+          msgJson["throttle"] = 0.3;
           msgJson["steering_angle"] = steer_value;
 
           if (steer_value <= -1){
             msgJson["steering_angle"] = -1;
             msgJson["throttle"] = -0.5;
           }
-          if (steer_value >= 0.2) {
+          if (steer_value >= 0.2 || steer_value <= -0.2) {
             msgJson["throttle"] = 0.5;
           }
-          if (steer_value >= 0.4) {
+          if (steer_value >= 0.4 || steer_value <= -0.4) {
             msgJson["throttle"] = 0.3;
           }
-          if (steer_value >= 0.6) {
-            msgJson["throttle"] = 0.0;
+          if (steer_value >= 0.6 || steer_value <= -0.6) {
+            msgJson["throttle"] = 0.1;
           }
-          if (steer_value >= 0.8) {
-            msgJson["throttle"] = -0.25;
+          if (steer_value >= 0.8 || steer_value <= -0.8) {
+            msgJson["throttle"] = 0.0;
           }
           if (steer_value >= 1) {
             msgJson["steering_angle"] = 1;
-            msgJson["throttle"] = -0.5;
+            msgJson["throttle"] = 0.0;
           }
 
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
