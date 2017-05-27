@@ -11,6 +11,26 @@ Here are the final results of the project:
 
 ---
 
+## The Model
+
+The model is based on lessons from Udacity and involves the following equations for state and actuators:
+
++ x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt
++ y_[t+1] = y[t] + v[t] * sin(psi[t]) * dt
++ psi_[t+1] = psi[t] + v[t] / Lf * delta[t] * dt
++ v_[t+1] = v[t] + a[t] * dt
++ cte[t+1] = f(x[t]) - y[t] + v[t] * sin(epsi[t]) * dt
++ epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] / Lf * dt
+
+---
+
+## Values chosen to optimize MPC:
+Timestep Length N = 10
+Elapsed Duration dt = 0.05
+Latency = 100 ms
+
+---
+
 ## Dependencies
 
 * cmake >= 3.5
