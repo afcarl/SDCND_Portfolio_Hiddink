@@ -1,9 +1,7 @@
 #include "MPC.h"
-#include <math.h>
 #include <cppad/cppad.hpp>
 #include <cppad/ipopt/solve.hpp>
 #include "Eigen-3.3/Eigen/Core"
-#include "Eigen-3.3/Eigen/QR"
 // #include "matplotlibcpp.h"
 
 // namespace plt = matplotlibcpp;
@@ -11,7 +9,7 @@
 using CppAD::AD;
 
 // N - number of timesteps
-size_t N = 25;
+size_t N = 10;
 // dt - timestep evaluation frequency (evaluation period)
 double dt = 0.05;
 
@@ -32,7 +30,7 @@ double ref_cte = 0;
 // Reference orientation error
 double ref_epsi = 0;
 // Reference velocity
-double ref_v = 40;
+double ref_v = 60;
 
 // Initialization of all state and actuator variables in a single vector
 size_t x_start = 0;
@@ -75,11 +73,12 @@ class FG_eval {
     for (int i = 0; i < N - 1; i++) {
       fg[0] += CppAD::pow(vars[delta_start + i], 2);
       fg[0] += CppAD::pow(vars[a_start + i], 2);
+      fg[0] += CppAD::pow(vars[cte_start + i + 1] - vars[cte_start + i], 2);
     }
 
     // Minimize value gap between sequential actuations
     for (int i = 0; i < N - 2; i++) {
-      fg[0] += CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
+      fg[0] += 1000 * CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
       fg[0] += CppAD::pow(vars[a_start + i + 1] - vars[a_start + i], 2);
     }
 
@@ -97,7 +96,7 @@ class FG_eval {
     fg[1 + epsi_start] = vars[epsi_start];
 
     // Other constraints
-    for (int i = 0; i < N; i++) {
+    for (int i = 0; i < N - 1; i++) {
       // State at time t + 1
       AD<double> x1 = vars[x_start + i + 1];
       AD<double> y1 = vars[y_start + i + 1];
@@ -118,8 +117,8 @@ class FG_eval {
       AD<double> delta0 = vars[delta_start + i];
       AD<double> a0 = vars[a_start + i];
 
-      AD<double> f0 = coeffs[0] + coeffs[1] * x0;
-      AD<double> psides0 = CppAD::atan(coeffs[1]);
+      AD<double> f0 = coeffs[0] + coeffs[1] * x0 + coeffs[2] * CppAD::pow(x0, 2) + coeffs[3] * CppAD::pow(x0, 3);
+      AD<double> psides0 = CppAD::atan(coeffs[1] + 2 * coeffs[2] * x0 + 3 * coeffs[3] * CppAD::pow(x0, 2));
 
       // Starting x value
       // Equations for model:
@@ -133,10 +132,10 @@ class FG_eval {
       //
       fg[2 + x_start + i] = x1 - (x0 + v0 * CppAD::cos(psi0) * dt);
       fg[2 + y_start + i] = y1 - (y0 + v0 * CppAD::sin(psi0) * dt);
-      fg[2 + psi_start + i] = psi1 - (psi0 + v0 * delta0 / Lf * dt);
+      fg[2 + psi_start + i] = psi1 - (psi0 + (v0 * delta0 / Lf) * dt);
       fg[2 + v_start + i] = v1 - (v0 + a0 * dt);
       fg[2 + cte_start + i] = cte1 - ((f0 - y0) + (v0 * CppAD::sin(epsi0) * dt));
-      fg[2 + epsi_start + i] = epsi1 - ((psi0 - psides0) + v0 * delta0 / Lf * dt);
+      fg[2 + epsi_start + i] = epsi1 - ((psi0 - psides0) + (v0 * delta0 / Lf) * dt);
     }
 
   }
@@ -145,10 +144,15 @@ class FG_eval {
 //
 // MPC class definition implementation.
 //
-MPC::MPC() {}
+MPC::MPC() {
+  solu_x.resize(N);
+  solu_y.resize(N);
+}
+
 MPC::~MPC() {}
 
 vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
+  bool ok = true;
   size_t i;
   typedef CPPAD_TESTVECTOR(double) Dvector;
 
@@ -174,7 +178,7 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   // Should be set to 0 except for initial values.
   Dvector vars(n_vars);
   for (int i = 0; i < n_vars; i++) {
-    vars[i] = 0.0;
+    vars[i] = 0;
   }
 
   // Initial variable values
@@ -262,19 +266,21 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
       constraints_upperbound, fg_eval, solution);
 
   // Check some of the solution values
-  bool ok = true;
   ok &= solution.status == CppAD::ipopt::solve_result<Dvector>::success;
 
   // Cost
   auto cost = solution.obj_value;
   std::cout << "Cost " << cost << std::endl;
 
+  // Copy solution x & y coordinates
+  for (int i = 0; i < N; i++) {
+    solu_x[i] = solution.x[x_start + i];
+    solu_y[i] = solution.x[y_start + i];
+  }
+
   // Return the first actuator values.
   // Access the variables with solution.x[i].
   // {...} is shorthand for creating a vector, so auto x1 = {1.0,2.0}
   // creates a 2 element double vector.
-  return {solution.x[x_start + 1], solution.x[y_start + 1],
-          solution.x[psi_start + 1], solution.x[v_start + 1],
-          solution.x[cte_start + 1], solution.x[epsi_start + 1],
-          solution.x[delta_start], solution.x[a_start]};
+  return { solution.x[delta_start + 1], solution.x[a_start + 1] };
 }
