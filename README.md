@@ -1,5 +1,13 @@
-# CarND-Controls-MPC
-Self-Driving Car Engineer Nanodegree Program
+![ScreenShot](https://github.com/nhiddink/CarND_P3_Behavioral_Cloning/blob/master/images/loading_screen.png)
+# Udacity's Self-Driving Car Nanodegree Program
+## Project 10 - MPC Control
+### _Implementing a MPC Controller in C++_ 
+---
+
+## Results
+Here are the final results of the project:
+
+[![Alt text](https://img.youtube.com/vi/acJgKkmNRgs/0.jpg)](https://www.youtube.com/watch?v=acJgKkmNRgs)
 
 ---
 
