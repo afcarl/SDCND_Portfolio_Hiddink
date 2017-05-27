@@ -4,9 +4,9 @@
 #include <cppad/ipopt/solve.hpp>
 #include "Eigen-3.3/Eigen/Core"
 #include "Eigen-3.3/Eigen/QR"
-#include "matplotlibcpp.h"
+// #include "matplotlibcpp.h"
 
-namespace plt = matplotlibcpp;
+// namespace plt = matplotlibcpp;
 
 using CppAD::AD;
 
@@ -32,7 +32,7 @@ double ref_cte = 0;
 // Reference orientation error
 double ref_epsi = 0;
 // Reference velocity
-dobule ref_v = 40;
+double ref_v = 40;
 
 // Initialization of all state and actuator variables in a single vector
 size_t x_start = 0;
@@ -80,7 +80,7 @@ class FG_eval {
     // Minimize value gap between sequential actuations
     for (int i = 0; i < N - 2; i++) {
       fg[0] += CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
-      fg[0] += CppAD:pow(vars[a_start + i + 1] - vars[a_start + i], 2);
+      fg[0] += CppAD::pow(vars[a_start + i + 1] - vars[a_start + i], 2);
     }
 
     /************************
@@ -119,7 +119,7 @@ class FG_eval {
       AD<double> a0 = vars[a_start + i];
 
       AD<double> f0 = coeffs[0] + coeffs[1] * x0;
-      AD<double> psies0 = CppAD::atan(coeffs[1]);
+      AD<double> psides0 = CppAD::atan(coeffs[1]);
 
       // Starting x value
       // Equations for model:
@@ -135,7 +135,7 @@ class FG_eval {
       fg[2 + y_start + i] = y1 - (y0 + v0 * CppAD::sin(psi0) * dt);
       fg[2 + psi_start + i] = psi1 - (psi0 + v0 * delta0 / Lf * dt);
       fg[2 + v_start + i] = v1 - (v0 + a0 * dt);
-      fg[2 + cte_start + i] = cte1 - ((f0 - y0) + (v0 * CppAD::sin(espi0) * dt));
+      fg[2 + cte_start + i] = cte1 - ((f0 - y0) + (v0 * CppAD::sin(epsi0) * dt));
       fg[2 + epsi_start + i] = epsi1 - ((psi0 - psides0) + v0 * delta0 / Lf * dt);
     }
 
@@ -157,12 +157,12 @@ vector<double> MPC::Solve(Eigen::VectorXd state, Eigen::VectorXd coeffs) {
   // element vector and there are 10 timesteps. The number of variables is:
   //
   // 4 * 10 + 2 * 9
-  double x = x0[0];
-  double y = x0[1];
-  double psi = x0[2];
-  double v = x0[3];
-  double cte = x0[4];
-  double epsi = x0[5];
+  double x = state[0];
+  double y = state[1];
+  double psi = state[2];
+  double v = state[3];
+  double cte = state[4];
+  double epsi = state[5];
 
   // Number of independent variables
   // N timesteps == N - 1 actuations
