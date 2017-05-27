@@ -9,7 +9,7 @@
 #include "MPC.h"
 #include "json.hpp"
 
-// for convenience
+// For convenience
 using json = nlohmann::json;
 
 // For converting back and forth between radians and degrees.
@@ -31,6 +31,10 @@ string hasData(string s) {
   }
   return "";
 }
+
+/***********************
+*   HELPER FUNCTIONS
+************************/
 
 // Evaluate a polynomial.
 double polyeval(Eigen::VectorXd coeffs, double x) {
@@ -65,11 +69,83 @@ Eigen::VectorXd polyfit(Eigen::VectorXd xvals, Eigen::VectorXd yvals,
   return result;
 }
 
+/*******************
+*   MAIN FUNCTION
+********************/
+
 int main() {
   uWS::Hub h;
 
   // MPC is initialized here!
   MPC mpc;
+
+  /*
+  int iters = 50;
+
+  Eigen::VectorXd ptsx(2);
+  Eigen::VectorXd ptsy(2);
+  ptsx << -100, 100;
+  ptsy << -1, -1;
+
+  // The polynomial is fitted to a straight line so a polynomial with
+  // order 1 is sufficient
+  auto coeffs = polyfit(ptsx, ptsy, 1);
+
+  double x = -1;
+  double y = 10;
+  double psi = 0;
+  double v = 10;
+  // The cross track error is calculated by evaluating at polynomial at x, f(x)
+  // and subtracting y.
+  double cte = polyeval(coeffs, 0) - y;
+  // Due to the sign starting at 0, the orientation error is -f'(x).
+  // Derivative of coeffs[0] + coeffs[1] * x -> coeffs[1]
+  double epsi = -atan(coeffs[1]);
+
+  Eigen::VectorXd state(6);
+  state << x, y, psi, v, cte, epsi;
+
+  std::vector<double> x_vals = {state[0]};
+  std::vector<double> y_vals = {state[1]};
+  std::vector<double> psi_vals = {state[2]};
+  std::vector<double> v_vals = {state[3]};
+  std::vector<double> cte_vals = {state[4]};
+  std::vector<double> epsi_vals = {state[5]};
+  std::vector<double> delta_vals = {};
+  std::vector<double> a_vals = {};
+
+  for (size_t i = 0; i < iters; i++) {
+    std::cout << "Iteration" << i << std::endl;
+
+    auto vars = mpc.Solve(state, coeffs);
+
+    x_vals.push_back(vars[0]);
+    y_vals.push_back(vars[1]);
+    psi_vals.push_back(vars[2]);
+    v_vals.push_back(vars[3]);
+    cte_vals.push_back(vars[4]);
+    epsi_vals.push_back(vars[5]);
+
+    delta_vals.push_back(vars[6]);
+    a_vals.push_back(vars[7]);
+
+    state << vars[0], vars[1], vars[2], vars[3], vars[4], vars[5];
+    std::cout << state << std::endl;
+  }
+
+  // Plot values
+  plt::subplot(3, 1, 1);
+  plt::title("CTE");
+  plt::plot(cte_vals);
+  plt::subplot(3, 1, 2);
+  plt::title("Delta (Radians)");
+  plt::plot(delta_vals);
+  plt::subplot(3, 1, 3);
+  plt::title("Velocity");
+  plt::plot(v_vals);
+
+  plt::show();
+  */
 
   h.onMessage([&mpc](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                      uWS::OpCode opCode) {
@@ -92,14 +168,13 @@ int main() {
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
 
-          /*
-          * TODO: Calculate steeering angle and throttle using MPC.
-          *
-          * Both are in between [-1, 1].
-          *
-          */
+          // Calculate steeering angle and throttle using MPC.
+          // Both are in between [-1, 1].
+
           double steer_value;
           double throttle_value;
+
+
 
           json msgJson;
           // NOTE: Remember to divide by deg2rad(25) before you send the steering value back.
@@ -107,7 +182,7 @@ int main() {
           msgJson["steering_angle"] = steer_value;
           msgJson["throttle"] = throttle_value;
 
-          //Display the MPC predicted trajectory 
+          //Display the MPC predicted trajectory
           vector<double> mpc_x_vals;
           vector<double> mpc_y_vals;
 
