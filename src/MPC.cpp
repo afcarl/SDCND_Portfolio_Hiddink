@@ -30,7 +30,7 @@ double ref_cte = 0;
 // Reference orientation error
 double ref_epsi = 0;
 // Reference velocity
-double ref_v = 60;
+double ref_v = 50;
 
 // Initialization of all state and actuator variables in a single vector
 size_t x_start = 0;
@@ -78,7 +78,7 @@ class FG_eval {
 
     // Minimize value gap between sequential actuations
     for (int i = 0; i < N - 2; i++) {
-      fg[0] += 1000 * CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
+      fg[0] += 500 * CppAD::pow(vars[delta_start + i + 1] - vars[delta_start + i], 2);
       fg[0] += CppAD::pow(vars[a_start + i + 1] - vars[a_start + i], 2);
     }
 

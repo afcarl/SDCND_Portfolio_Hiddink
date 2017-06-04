@@ -71,6 +71,21 @@ Eigen::VectorXd polyfit(Eigen::VectorXd xvals, Eigen::VectorXd yvals,
   return result;
 }
 
+// Transform coordinates using polyfit
+void transform_coordinates(Eigen::Matrix3d Tform,
+                                      vector<double> ptsx,  vector<double> ptsy,
+                                      Eigen::VectorXd &ptcx, Eigen::VectorXd &ptcy, int i) {
+
+  Eigen::VectorXd pts(3);
+  Eigen::VectorXd ptst(3);
+
+  pts << ptsx[i], ptsy[i], 1.0;
+  ptst = Tform.inverse() * pts;
+  ptcx(i) = ptst(0);
+  ptcy(i) = ptst(1);
+
+}
+
 /*******************
 *   MAIN FUNCTION
 ********************/
@@ -169,8 +184,10 @@ int main() {
           double py = j[1]["y"];
           double psi = j[1]["psi"];
           double v = j[1]["speed"];
+          // Convert to m/s
+          // v *= 0.44704;
 
-          // Calculate steeering angle and throttle using MPC.
+          // Calculate steering angle and throttle using MPC.
           // Both are in between [-1, 1].
 
           Eigen::Matrix3d Tform;
@@ -178,16 +195,13 @@ int main() {
                        std::sin(psi), std::cos(psi),  py,
                        0,             0,              1;
 
+          // Variables for coordinate transformation
           Eigen::VectorXd ptcx(ptsx.size());
           Eigen::VectorXd ptcy(ptsy.size());
-          for (int i = 0; i < ptsx.size(); i++) {
-            Eigen::VectorXd pts(3);
-            Eigen::VectorXd ptst(3);
 
-            pts << ptsx[i], ptsy[i], 1.0;
-            ptst = Tform.inverse() * pts;
-            ptcx(i) = ptst(0);
-            ptcy(i) = ptst(1);
+          // Perform coordinate transformation
+          for (int i = 0; i < ptsx.size(); i++) {
+            transform_coordinates(Tform, ptsx, ptsy, ptcx, ptcy, i);
           }
 
           Eigen::VectorXd coeffs = polyfit(ptcx, ptcy, 3);
@@ -254,7 +268,7 @@ int main() {
           msgJson["next_y"] = next_y_vals;
 
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
-          // std::cout << msg << std::endl;
+          std::cout << msg << std::endl;
           // Latency
           // The purpose is to mimic real driving conditions where
           // the car does actuate the commands instantly.
