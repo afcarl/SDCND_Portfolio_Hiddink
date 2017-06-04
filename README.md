@@ -1,7 +1,8 @@
 ![ScreenShot](https://github.com/nhiddink/CarND_P3_Behavioral_Cloning/blob/master/images/loading_screen.png)
 # Udacity's Self-Driving Car Nanodegree Program
-## Project 10 - MPC Control
-### _Implementing a MPC Controller in C++_ 
+### Project 10 - MPC Control
+#### _Implementing a MPC Controller in C++_ 
+
 ---
 
 ## Results
@@ -21,8 +22,6 @@ The model is based on lessons from Udacity and involves the following equations 
 + v_[t+1] = v[t] + a[t] * dt
 + cte[t+1] = f(x[t]) - y[t] + v[t] * sin(epsi[t]) * dt
 + epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] / Lf * dt
-
----
 
 ## Length and Duration
 
