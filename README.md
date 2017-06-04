@@ -1,5 +1,33 @@
-# CarND-Controls-MPC
-Self-Driving Car Engineer Nanodegree Program
+![ScreenShot](https://github.com/nhiddink/CarND_P3_Behavioral_Cloning/blob/master/images/loading_screen.png)
+# Udacity's Self-Driving Car Nanodegree Program
+## Project 10 - MPC Control
+### _Implementing a MPC Controller in C++_ 
+---
+
+## Results
+Here are the final results of the project:
+
+[![Alt text](https://img.youtube.com/vi/acJgKkmNRgs/0.jpg)](https://www.youtube.com/watch?v=acJgKkmNRgs)
+
+---
+
+## The Model
+
+The model is based on lessons from Udacity and involves the following equations for state and actuators:
+
++ x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt
++ y_[t+1] = y[t] + v[t] * sin(psi[t]) * dt
++ psi_[t+1] = psi[t] + v[t] / Lf * delta[t] * dt
++ v_[t+1] = v[t] + a[t] * dt
++ cte[t+1] = f(x[t]) - y[t] + v[t] * sin(epsi[t]) * dt
++ epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] / Lf * dt
+
+---
+
+## Values chosen to optimize MPC:
+Timestep Length N = 10
+Elapsed Duration dt = 0.05
+Latency = 100 ms
 
 ---
 
