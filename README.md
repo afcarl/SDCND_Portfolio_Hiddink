@@ -24,10 +24,13 @@ The model is based on lessons from Udacity and involves the following equations 
 
 ---
 
-## Values chosen to optimize MPC:
-Timestep Length N = 10
-Elapsed Duration dt = 0.05
-Latency = 100 ms
+## Length and Duration
+
+My goal was to minimize Length (`N`) at the expense of Duration (`dt`), since `N` determines the number of variables that are optimized by MPC and is the major driver of computational cost. Once I decided the value for `N`, I chose `dt` such that I achieved a working solution, which resulted in 0.05.
+
+## Latency
+
+In order to more accurately simulate a real car's execution of actuations, I chose to introduce a 100 millisecond latency into the control system. This delay allows for sufficient time to pass for commands to propagate through to completion. Latency of 100 ms was especially useful for steering angle commands, as my goal was to prevent over-actuation of the steering wheel.
 
 ---
 
