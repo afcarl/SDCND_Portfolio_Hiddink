@@ -7,6 +7,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # SDCND_Portfolio_Hiddink
 =======
 #**Finding Lane Lines on the Road** 
@@ -587,6 +588,43 @@ Here are the final results of the project:
 [![Alt text](https://img.youtube.com/vi/jaYaLAodwUA/0.jpg)](https://www.youtube.com/watch?v=jaYaLAodwUA)
 >>>>>>> CarND_P9_PID_Controller/master
 
+=======
+![ScreenShot](https://github.com/nhiddink/CarND_P3_Behavioral_Cloning/blob/master/images/loading_screen.png)
+# Udacity's Self-Driving Car Nanodegree Program
+### Project 10 - MPC Control
+#### _Implementing a MPC Controller in C++_ 
+
+---
+
+## Results
+Here are the final results of the project:
+
+[![Alt text](https://img.youtube.com/vi/acJgKkmNRgs/0.jpg)](https://www.youtube.com/watch?v=acJgKkmNRgs)
+
+---
+
+## The Model
+
+The model is based on lessons from Udacity and involves the following equations for state and actuators:
+
++ x_[t+1] = x[t] + v[t] * cos(psi[t]) * dt
++ y_[t+1] = y[t] + v[t] * sin(psi[t]) * dt
++ psi_[t+1] = psi[t] + v[t] / Lf * delta[t] * dt
++ v_[t+1] = v[t] + a[t] * dt
++ cte[t+1] = f(x[t]) - y[t] + v[t] * sin(epsi[t]) * dt
++ epsi[t+1] = psi[t] - psides[t] + v[t] * delta[t] / Lf * dt
+
+## Length and Duration
+
+My goal was to minimize Length (`N`) at the expense of Duration (`dt`), since `N` determines the number of variables that are optimized by MPC and is the major driver of computational cost. Once I decided the value for `N`, I chose `dt` such that I achieved a working solution, which resulted in 0.05.
+
+## Latency
+
+In order to more accurately simulate a real car's execution of actuations, I chose to introduce a 100 millisecond latency into the control system. This delay allows for sufficient time to pass for commands to propagate through to completion. Latency of 100 ms was especially useful for steering angle commands, as my goal was to prevent over-actuation of the steering wheel.
+
+---
+
+>>>>>>> CarND_P10_MPC/master
 ## Dependencies
 
 * cmake >= 3.5
@@ -599,6 +637,7 @@ Here are the final results of the project:
   * Linux: gcc / g++ is installed by default on most Linux distros
   * Mac: same deal as make - [install Xcode command line tools]((https://developer.apple.com/xcode/features/)
   * Windows: recommend using [MinGW](http://www.mingw.org/)
+<<<<<<< HEAD
 <<<<<<< HEAD
 
 ---
@@ -858,11 +897,48 @@ The two things the grading code is looking for are:
 * Simulator. You can download these from the [project intro page](https://github.com/udacity/CarND-PID-Control-Project/releases) in the classroom.
 
 ## Basic Build Instructions
+=======
+* [uWebSockets](https://github.com/uWebSockets/uWebSockets) == 0.14, but the master branch will probably work just fine
+  * Follow the instructions in the [uWebSockets README](https://github.com/uWebSockets/uWebSockets/blob/master/README.md) to get setup for your platform. You can download the zip of the appropriate version from the [releases page](https://github.com/uWebSockets/uWebSockets/releases). Here's a link to the [v0.14 zip](https://github.com/uWebSockets/uWebSockets/archive/v0.14.0.zip).
+  * If you have MacOS and have [Homebrew](https://brew.sh/) installed you can just run the ./install-mac.sh script to install this.
+* Fortran Compiler
+  * Mac: `brew install gcc` (might not be required)
+  * Linux: `sudo apt-get install gfortran`. Additionall you have also have to install gcc and g++, `sudo apt-get install gcc g++`. Look in [this Dockerfile](https://github.com/udacity/CarND-MPC-Quizzes/blob/master/Dockerfile) for more info.
+* [Ipopt](https://projects.coin-or.org/Ipopt)
+  * Mac: `brew install ipopt`
+  * Linux
+    * You will need a version of Ipopt 3.12.1 or higher. The version available through `apt-get` is 3.11.x. If you can get that version to work great but if not there's a script `install_ipopt.sh` that will install Ipopt. You just need to download the source from the Ipopt [releases page](https://www.coin-or.org/download/source/Ipopt/) or the [Github releases](https://github.com/coin-or/Ipopt/releases) page.
+    * Then call `install_ipopt.sh` with the source directory as the first argument, ex: `bash install_ipopt.sh Ipopt-3.12.1`. 
+  * Windows: TODO. If you can use the Linux subsystem and follow the Linux instructions.
+* [CppAD](https://www.coin-or.org/CppAD/)
+  * Mac: `brew install cppad`
+  * Linux `sudo apt-get install cppad` or equivalent.
+  * Windows: TODO. If you can use the Linux subsystem and follow the Linux instructions.
+* [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page). This is already part of the repo so you shouldn't have to worry about it.
+* Simulator. You can download these from the [releases tab](https://github.com/udacity/CarND-MPC-Project/releases).
+* Not a dependency but read the [DATA.md](./DATA.md) for a description of the data sent back from the simulator.
+
+
+## Basic Build Instructions
+
+>>>>>>> CarND_P10_MPC/master
 
 1. Clone this repo.
 2. Make a build directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
+<<<<<<< HEAD
 4. Run it: `./pid`. 
+=======
+4. Run it: `./mpc`.
+
+## Tips
+
+1. It's recommended to test the MPC on basic examples to see if your implementation behaves as desired. One possible example
+is the vehicle starting offset of a straight line (reference). If the MPC implementation is correct, after some number of timesteps
+(not too many) it should find and track the reference line.
+2. The `lake_track_waypoints.csv` file has the waypoints of the lake track. You could use this to fit polynomials and points and see of how well your model tracks curve. NOTE: This file might be not completely in sync with the simulator so your solution should NOT depend on it.
+3. For visualization this C++ [matplotlib wrapper](https://github.com/lava/matplotlib-cpp) could be helpful.
+>>>>>>> CarND_P10_MPC/master
 
 ## Editor Settings
 
@@ -883,7 +959,11 @@ Note: regardless of the changes you make, your project must be buildable using
 cmake and make!
 
 More information is only accessible by people who are already enrolled in Term 2
+<<<<<<< HEAD
 of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/f1820894-8322-4bb3-81aa-b26b3c6dcbaf/lessons/e8235395-22dd-4b87-88e0-d108c5e5bbf4/concepts/6a4d8d42-6a04-4aa6-b284-1697c0fd6562)
+=======
+of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/f1820894-8322-4bb3-81aa-b26b3c6dcbaf/lessons/b1ff3be0-c904-438e-aad3-2b5379f0e0c3/concepts/1a2255a0-e23c-44cf-8d41-39b8a3c8264a)
+>>>>>>> CarND_P10_MPC/master
 for instructions and the project rubric.
 
 ## Hints!
@@ -919,4 +999,7 @@ that's just a guess.
 
 One last note here: regardless of the IDE used, every submitted project must
 still be compilable with cmake and make./
+<<<<<<< HEAD
 >>>>>>> CarND_P9_PID_Controller/master
+=======
+>>>>>>> CarND_P10_MPC/master
