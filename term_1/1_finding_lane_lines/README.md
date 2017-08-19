@@ -7,7 +7,7 @@ In this project you will detect lane lines in images using Python and OpenCV.  O
 
 ## Installation
 
-**Step 1:** Getting setup with Python
+### Step 1: Getting setup with Python
 
 To do this project, you will need Python 3 along with the numpy, matplotlib, and OpenCV libraries, as well as Jupyter Notebook installed. 
 
@@ -21,7 +21,7 @@ If you already have Anaconda for Python 2 installed, you can create a separate e
 
 `>  source activate yourNewEnvironment`
 
-**Step 2:** Installing OpenCV
+### Step 2: Installing OpenCV
 
 Once you have Anaconda installed, first double check you are in your Python 3 environment:
 
@@ -43,7 +43,7 @@ then to test if OpenCV is installed correctly:
 `>>>`  
 (Ctrl-d to exit Python)
 
-**Step 3:** Installing moviepy  
+### Step 3: Installing moviepy
 
 We recommend the "moviepy" package for processing video in this project (though you're welcome to use other packages if you prefer).  
 
@@ -58,7 +58,7 @@ and check that the install worked:
 `>>>`  
 (Ctrl-d to exit Python)
 
-**Step 4:** Opening the code in a Jupyter Notebook
+### Step 4: Opening the code in a Jupyter Notebook
 
 You will complete this project in a Jupyter notebook.  If you are unfamiliar with Jupyter Notebooks, check out <A HREF="https://jupyter-notebook-beginner-guide.readthedocs.io/en/latest/" target="_blank">this link</A> to get started.
 
@@ -67,7 +67,6 @@ Jupyter is an ipython notebook where you can run blocks of code and see results 
 `> jupyter notebook`
 
 A browser window will appear showing the contents of the current directory.  Click on the file called "P1.ipynb".  Another browser window will appear displaying the notebook.  Follow the instructions in the notebook to complete the project.  
->>>>>>> CarND_P1_Finding_Lane_Lines/master
 
 ## Final Results
 My final implementation of this project can be found on YouTube here:
