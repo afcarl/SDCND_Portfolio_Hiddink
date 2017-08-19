@@ -1,4 +1,4 @@
-![ScreenShot](../3_behavioral_cloning/images/loading_screen.png)
+![ScreenShot](../../term_1/3_behavioral_cloning/images/loading_screen.png)
 # Project 6 - Implement an Extended Kalman Filter in C++
 
 The starter code and input data for this project was taken from the following repository on GitHub: 
