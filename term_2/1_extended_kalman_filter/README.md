@@ -70,4 +70,3 @@ The following results for Root Mean Square Error (RMSE) Accuracy were produced f
 ## Future Plans
 
 + **Generate Additional Data** - use my own radar and lidar data collected using [utilities repo](https://github.com/udacity/CarND-Mercedes-SF-Utilities) Matlab scripts.
->>>>>>> CarND_P6_Extended_Kalman_Filters/master
