@@ -113,11 +113,10 @@ Finally, I plotted the warped images back down onto the road such that, for each
 
 ![alt text][lane_mapping]
 
-## Pipeline (Video)
+## Final Results (YouTube)
 
 Click on the image or link below to view the video results of the project.
 
-## P4_video_final.mp4
 https://youtu.be/5ZKbpNY-rok
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=5ZKbpNY-rok
