@@ -19,7 +19,7 @@ https://github.com/udacity/CarND-Extended-Kalman-Filter-Project
 
 ## Basic Build Instructions
 
-[![atom](https://github.com/nhiddink/CarND_P6_Extended_Kalman_Filters/blob/master/screenshots/atom.png)](https://github.com/atom/atom/releases)
+[![atom](screenshots/atom.png)](https://github.com/atom/atom/releases)
 
 GitHub's Atom editor is a useful tool for working on the code files in this repository. Click on the image above to visit the download page for Atom 1.15. When you have finished editing the source code, build the project by performing these steps:
 
