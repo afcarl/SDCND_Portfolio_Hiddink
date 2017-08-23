@@ -1,7 +1,7 @@
 ![header](term_1/3_behavioral_cloning/images/loading_screen.png)
 
 # Self-Driving Car Engineer Nanodegree Program by Udacity
-Project Portfolio - Neil Hiddink (2016-2017)
+## Project Portfolio - Neil Hiddink (2016-2017)
 
 ---
 
@@ -25,8 +25,6 @@ Project Portfolio - Neil Hiddink (2016-2017)
 
 [![Alt text](https://img.youtube.com/vi/Vx5GtROunzQ/0.jpg)](https://www.youtube.com/watch?v=Vx5GtROunzQ)
 
----
-
 ## Term 2 (February 2017 - May 2017)
 
 ### Project 1 - [Extended Kalman Filter](https://github.com/nhiddink/SDCND_Portfolio_Hiddink/tree/master/term_2/1_extended_kalman_filter)
@@ -43,10 +41,7 @@ Project Portfolio - Neil Hiddink (2016-2017)
 
 [![Alt text](https://img.youtube.com/vi/acJgKkmNRgs/0.jpg)](https://www.youtube.com/watch?v=acJgKkmNRgs)
 
----
-
 ## Term 3 (July 2017 - Present)
 
 ### In Progress
 
----
