@@ -10,14 +10,18 @@
 #include "json.hpp"
 
 using namespace std;
-
-// for convenience
 using json = nlohmann::json;
 
 // For converting back and forth between radians and degrees.
-constexpr double pi() { return M_PI; }
-double deg2rad(double x) { return x * pi() / 180; }
-double rad2deg(double x) { return x * 180 / pi(); }
+constexpr double pi() {
+  return M_PI;
+}
+double deg2rad(double x) {
+  return x * pi() / 180;
+}
+double rad2deg(double x) {
+  return x * 180 / pi();
+}
 
 // Checks if the SocketIO event has JSON data.
 // If there is data the JSON object in string format will be returned,
@@ -34,23 +38,20 @@ string hasData(string s) {
   return "";
 }
 
-double distance(double x1, double y1, double x2, double y2)
-{
-	return sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
+double distance(double x1, double y1, double x2, double y2) {
+  return sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 }
-int ClosestWaypoint(double x, double y, vector<double> maps_x, vector<double> maps_y)
-{
 
-	double closestLen = 100000; //large number
+int ClosestWaypoint(double x, double y, vector<double> maps_x, vector<double> maps_y) {
+
+	double closestLen = 100000; // Some large number
 	int closestWaypoint = 0;
 
-	for(int i = 0; i < maps_x.size(); i++)
-	{
+	for(int i = 0; i < maps_x.size(); i++) {
 		double map_x = maps_x[i];
 		double map_y = maps_y[i];
 		double dist = distance(x,y,map_x,map_y);
-		if(dist < closestLen)
-		{
+		if(dist < closestLen) {
 			closestLen = dist;
 			closestWaypoint = i;
 		}
@@ -61,8 +62,7 @@ int ClosestWaypoint(double x, double y, vector<double> maps_x, vector<double> ma
 
 }
 
-int NextWaypoint(double x, double y, double theta, vector<double> maps_x, vector<double> maps_y)
-{
+int NextWaypoint(double x, double y, double theta, vector<double> maps_x, vector<double> maps_y) {
 
 	int closestWaypoint = ClosestWaypoint(x,y,maps_x,maps_y);
 
@@ -73,8 +73,7 @@ int NextWaypoint(double x, double y, double theta, vector<double> maps_x, vector
 
 	double angle = abs(theta-heading);
 
-	if(angle > pi()/4)
-	{
+	if(angle > pi()/4) {
 		closestWaypoint++;
 	}
 
@@ -83,14 +82,12 @@ int NextWaypoint(double x, double y, double theta, vector<double> maps_x, vector
 }
 
 // Transform from Cartesian x,y coordinates to Frenet s,d coordinates
-vector<double> getFrenet(double x, double y, double theta, vector<double> maps_x, vector<double> maps_y)
-{
+vector<double> getFrenet(double x, double y, double theta, vector<double> maps_x, vector<double> maps_y) {
 	int next_wp = NextWaypoint(x,y, theta, maps_x,maps_y);
 
 	int prev_wp;
 	prev_wp = next_wp-1;
-	if(next_wp == 0)
-	{
+	if(next_wp == 0) {
 		prev_wp  = maps_x.size()-1;
 	}
 
@@ -99,15 +96,14 @@ vector<double> getFrenet(double x, double y, double theta, vector<double> maps_x
 	double x_x = x - maps_x[prev_wp];
 	double x_y = y - maps_y[prev_wp];
 
-	// find the projection of x onto n
+	// Find the projection of x onto n
 	double proj_norm = (x_x*n_x+x_y*n_y)/(n_x*n_x+n_y*n_y);
 	double proj_x = proj_norm*n_x;
 	double proj_y = proj_norm*n_y;
 
 	double frenet_d = distance(x_x,x_y,proj_x,proj_y);
 
-	//see if d value is positive or negative by comparing it to a center point
-
+	// Check to see if d value is positive or negative by comparing it to a center point
 	double center_x = 1000-maps_x[prev_wp];
 	double center_y = 2000-maps_y[prev_wp];
 	double centerToPos = distance(center_x,center_y,x_x,x_y);
@@ -209,12 +205,12 @@ int main() {
 
       if (s != "") {
         auto j = json::parse(s);
-        
+
         string event = j[0].get<string>();
-        
+
         if (event == "telemetry") {
           // j[1] is the data JSON object
-          
+
         	// Main car's localization Data
           	double car_x = j[1]["x"];
           	double car_y = j[1]["y"];
@@ -226,7 +222,7 @@ int main() {
           	// Previous path data given to the Planner
           	auto previous_path_x = j[1]["previous_path_x"];
           	auto previous_path_y = j[1]["previous_path_y"];
-          	// Previous path's end s and d values 
+          	// Previous path's end s and d values
           	double end_path_s = j[1]["end_path_s"];
           	double end_path_d = j[1]["end_path_d"];
 
@@ -238,6 +234,59 @@ int main() {
           	vector<double> next_x_vals;
           	vector<double> next_y_vals;
 
+            // Starter Code: Straight Line Path
+
+            double dist_inc = 0.5;
+            for (int i = 0; i < 50; i++) {
+
+              next_x_vals.push_back(car_x+(dist_inc*i)*cos(deg2rad(car_yaw)));
+              next_y_vals.push_back(car_y+(dist_inc*i)*sin(deg2rad(car_yaw)));
+
+            }
+
+
+            //Starter Code: Circular Path
+            /*
+
+            double pos_x;
+            double pos_y;
+            double angle;
+            int path_size = previous_path_x.size();
+
+            for (int i = 0; i < path_size; i++) {
+
+              next_x_vals.push_back(previous_path_x[i]);
+              next_y_vals.push_back(previous_path_y[i]);
+
+            }
+
+            if (path_size == 0) {
+
+              pos_x = car_x;
+              pos_y = car_y;
+              angle = deg2rad(car_yaw);
+
+            } else {
+
+              pos_x = previous_path_x[path_size-1];
+              pos_y = previous_path_y[path_size-1];
+
+              double pos_x2 = previous_path_x[path_size-2];
+              double pos_y2 = previous_path_y[path_size-2];
+              angle = atan2(pos_y-pos_y2,pos_x-pos_x2);
+
+          }
+
+            double dist_inc = 0.5;
+            for(int i = 0; i < 50-path_size; i++)
+            {
+                next_x_vals.push_back(pos_x+(dist_inc)*cos(angle+(i+1)*(pi()/100)));
+                next_y_vals.push_back(pos_y+(dist_inc)*sin(angle+(i+1)*(pi()/100)));
+                pos_x += (dist_inc)*cos(angle+(i+1)*(pi()/100));
+                pos_y += (dist_inc)*sin(angle+(i+1)*(pi()/100));
+            }
+
+            */
 
           	// TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
           	msgJson["next_x"] = next_x_vals;
@@ -247,7 +296,7 @@ int main() {
 
           	//this_thread::sleep_for(chrono::milliseconds(1000));
           	ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
-          
+
         }
       } else {
         // Manual driving
@@ -290,83 +339,3 @@ int main() {
   }
   h.run();
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
