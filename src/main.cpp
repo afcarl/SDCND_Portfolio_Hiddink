@@ -234,6 +234,7 @@ int main() {
           	vector<double> next_x_vals;
           	vector<double> next_y_vals;
 
+            /*
             // Starter Code: Straight Line Path
 
             double dist_inc = 0.5;
@@ -243,10 +244,10 @@ int main() {
               next_y_vals.push_back(car_y+(dist_inc*i)*sin(deg2rad(car_yaw)));
 
             }
+            */
 
-
-            //Starter Code: Circular Path
             /*
+            //Starter Code: Circular Path
 
             double pos_x;
             double pos_y;
@@ -275,7 +276,7 @@ int main() {
               double pos_y2 = previous_path_y[path_size-2];
               angle = atan2(pos_y-pos_y2,pos_x-pos_x2);
 
-          }
+            }
 
             double dist_inc = 0.5;
             for(int i = 0; i < 50-path_size; i++)
@@ -289,7 +290,27 @@ int main() {
             */
 
           	// TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
-          	msgJson["next_x"] = next_x_vals;
+            //////
+
+            double dist_inc = 0.45;
+            double lane_width = 4.0;
+            double num_lanes = 3.0;
+
+            for (int i = 0; i < 50; i++) {
+
+              double next_s = car_s + (i + 1) * dist_inc;
+              double next_d = lane_width * (num_lanes / 2);
+
+              vector<double> xy = getXY(next_s, next_d, map_waypoints_s, map_waypoints_x, map_waypoints_y);
+
+              next_x_vals.push_back(xy[0]);
+              next_y_vals.push_back(xy[1]);
+
+            }
+
+            ////// END
+
+            msgJson["next_x"] = next_x_vals;
           	msgJson["next_y"] = next_y_vals;
 
           	auto msg = "42[\"control\","+ msgJson.dump()+"]";
