@@ -8,6 +8,7 @@
 #include "Eigen-3.3/Eigen/Core"
 #include "Eigen-3.3/Eigen/QR"
 #include "json.hpp"
+#include "spline.h"
 
 using namespace std;
 using json = nlohmann::json;
@@ -292,7 +293,7 @@ int main() {
           	// TODO: define a path made up of (x,y) points that the car will visit sequentially every .02 seconds
             //////
 
-            double dist_inc = 0.45;
+            double dist_inc = 0.425;
             double lane_width = 4.0;
             double num_lanes = 3.0;
 
