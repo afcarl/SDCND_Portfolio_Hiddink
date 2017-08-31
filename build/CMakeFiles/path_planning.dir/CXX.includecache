@@ -849,6 +849,18 @@ Eigen-3.3/Eigen/QR
 /Users/nhiddink/Github/CarND_P11_Path_Planning/src/Eigen-3.3/Eigen/QR
 json.hpp
 /Users/nhiddink/Github/CarND_P11_Path_Planning/src/json.hpp
+spline.h
+/Users/nhiddink/Github/CarND_P11_Path_Planning/src/spline.h
+
+/Users/nhiddink/Github/CarND_P11_Path_Planning/src/spline.h
+cstdio
+-
+cassert
+-
+vector
+-
+algorithm
+-
 
 /usr/local/include/pthread-barrier.h
 errno.h
