@@ -235,6 +235,46 @@ int main() {
 
             int prev_size = previous_path_x.size();
 
+            ////// SENSOR FUSION
+
+            // Sensor Fusion Data, a list of all other cars on the same side of the road.
+          	auto sensor_fusion = j[1]["sensor_fusion"];
+
+            if (prev_size > 0) {
+              car_s = end_path_s;
+            }
+
+            bool too_close = false;
+
+            // Find ref_v to use
+            for (int i = 0; i < sensor_fusion.size(); i++) {
+              // Check if another car is in the current lane
+              float d = sensor_fusion[i][6];
+              if(d < (2+4*lane+2) && d > (2+4*lane-2)) {
+                double vx = sensor_fusion[i][3];
+                double vy = sensor_fusion[i][4];
+                double check_speed = sqrt(vx * vx + vy * vy);
+                double check_car_s = sensor_fusion[i][5];
+
+                // Use this to project points from previous points
+                check_car_s += ((double)prev_size * 0.02 * check_speed);
+
+                // Check for larger s values and s gap
+                if ((check_car_s > car_s) && ((check_car_s - car_s) < 30)) {
+
+                  // Add logic here for lowering reference velocity and avoid front collisions
+
+                  ref_vel = 29.5; // in mph
+                  // too_close = true;
+
+                }
+              }
+
+
+            }
+
+            //////
+
             // Variables for waypoints (x, y) evenly spaced at 30m.
             vector<double> ptsx;
             vector<double> ptsy;
@@ -346,11 +386,6 @@ int main() {
 
             }
 
-          	// Sensor Fusion Data, a list of all other cars on the same side of the road.
-          	auto sensor_fusion = j[1]["sensor_fusion"];
-
-          	json msgJson;
-
             ////////////////////////////////////////////////////////////
             // TODO: Define a path made up of (x,y) points that
             //       the car will visit sequentially every .02 seconds
@@ -359,6 +394,8 @@ int main() {
 
 
             ////// END
+
+            json msgJson;
 
             msgJson["next_x"] = next_x_vals;
           	msgJson["next_y"] = next_y_vals;
