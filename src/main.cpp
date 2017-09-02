@@ -269,21 +269,13 @@ int main() {
 
                   //ref_vel = 29.5; // in mph
                   too_close = true;
+                  if (lane > 0) {
+                    lane = 0;
+                  }
 
                 }
 
               }
-            }
-
-            // Handle accleration limits
-            if (too_close) {
-
-              ref_vel -= 0.224;
-
-            } else if (ref_vel < 49.5) {
-
-              ref_vel += 0.224;
-
             }
 
             // Variables for waypoints (x, y) evenly spaced at 30m.
@@ -374,6 +366,13 @@ int main() {
             // Fill up the rest of our path planner after filling it with previous points
             // Always output 50 points
             for (int i = 0; i <= 50 - previous_path_x.size(); i++) {
+
+              // Handle accleration limits
+              if (too_close) {
+                ref_vel -= 0.224;
+              } else if (ref_vel < 49.5) {
+                ref_vel += 0.224;
+              }
 
               // Find points on spline
               double N = (target_dist / (0.02 * ref_vel / 2.24));
