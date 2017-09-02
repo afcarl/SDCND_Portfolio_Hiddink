@@ -193,18 +193,22 @@ int main() {
   	map_waypoints_dy.push_back(d_y);
   }
 
-  h.onMessage([&map_waypoints_x,&map_waypoints_y,&map_waypoints_s,&map_waypoints_dx,&map_waypoints_dy](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
+  // Start in the middle lane
+  // | Left   | Middle | Right  |
+  // | Lane 0 | Lane 1 | Lane 2 |
+  int lane = 1;
+
+  // Have a reference velocity to target
+  double ref_vel = 0.0; //in mph
+
+  h.onMessage([&ref_vel, &map_waypoints_x, &map_waypoints_y, &map_waypoints_s, &map_waypoints_dx, &map_waypoints_dy, &lane]
+    (uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length,
                      uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
     //auto sdata = string(data).substr(0, length);
     //cout << sdata << endl;
-
-    int lane = 1;
-
-    // Have a reference velocity to target (in mph)
-    double ref_vel = 49.5;
 
     if (length && length > 2 && data[0] == '4' && data[1] == '2') {
 
@@ -229,16 +233,15 @@ int main() {
           	// Previous path data given to the Planner
           	auto previous_path_x = j[1]["previous_path_x"];
           	auto previous_path_y = j[1]["previous_path_y"];
-          	// Previous path's end s and d values
+
+            // Previous path's end s and d values
           	double end_path_s = j[1]["end_path_s"];
           	double end_path_d = j[1]["end_path_d"];
 
+            // Get Sensor Fusion list of all other cars on the same side of the road
+          	vector<vector<double>> sensor_fusion = j[1]["sensor_fusion"];
+
             int prev_size = previous_path_x.size();
-
-            ////// SENSOR FUSION
-
-            // Sensor Fusion Data, a list of all other cars on the same side of the road.
-          	auto sensor_fusion = j[1]["sensor_fusion"];
 
             if (prev_size > 0) {
               car_s = end_path_s;
@@ -264,16 +267,24 @@ int main() {
 
                   // Add logic here for lowering reference velocity and avoid front collisions
 
-                  ref_vel = 29.5; // in mph
-                  // too_close = true;
+                  //ref_vel = 29.5; // in mph
+                  too_close = true;
 
                 }
+
               }
-
-
             }
 
-            //////
+            // Handle accleration limits
+            if (too_close) {
+
+              ref_vel -= 0.224;
+
+            } else if (ref_vel < 49.5) {
+
+              ref_vel += 0.224;
+
+            }
 
             // Variables for waypoints (x, y) evenly spaced at 30m.
             vector<double> ptsx;
@@ -362,7 +373,7 @@ int main() {
 
             // Fill up the rest of our path planner after filling it with previous points
             // Always output 50 points
-            for (int i = 0; i <= 50 - previous_path_x.size(); i++){
+            for (int i = 0; i <= 50 - previous_path_x.size(); i++) {
 
               // Find points on spline
               double N = (target_dist / (0.02 * ref_vel / 2.24));
@@ -386,17 +397,9 @@ int main() {
 
             }
 
-            ////////////////////////////////////////////////////////////
-            // TODO: Define a path made up of (x,y) points that
-            //       the car will visit sequentially every .02 seconds
-            ////////////////////////////////////////////////////////////
-
-
-
-            ////// END
+            ///////////////////////////////
 
             json msgJson;
-
             msgJson["next_x"] = next_x_vals;
           	msgJson["next_y"] = next_y_vals;
 
