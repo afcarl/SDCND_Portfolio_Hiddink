@@ -115,7 +115,7 @@ next_waypoint = NextWaypoint(ref_x, ref_y, ref_yaw, map_waypoints_x, map_waypoin
 
 **3. Check for Cars in The Current Lane**
 
-![Check](check_speed.png)
+![Check](resources/check_speed.png)
 
 This part of the code centers around the Frenet `d` value pulled from the `sensor_fusion` data. This value is very useful because it follows the centerline of each lane and can be used to easily compare the positions of other vehicles to our vehicle. The logic behind the first `if` statement checks the current lane to see if there are cars that share the same d value. If the d values are the same, then there is another vehicle ahead of our car in the current lane.
 
@@ -164,6 +164,45 @@ if ((check_car_s > car_s) && ((check_car_s - car_s) < 30) && ((check_car_s - car
 ```
 
 **5. Change Lanes to the Left or Right**
+
+![ChangeLanes](resources/slow_down_and_change_lane.png)
+
+Finally, the model handles left or right lane changes using two similarly designed code snippets. The logic for executing a left lane change is shown. The `if` statement checks to see if the lane is occupied and the distance remaining between `next_waypoint` and `waypoint_change_lane` in terms of the map waypoints to smooth the transition into the next lane and avoid excess acceleration or jerk.
+
+```
+if (change_lane && ((next_waypoint - waypoint_change_lane) % map_waypoints_x.size() > 2)) {
+     
+     bool did_change_lane = false;
+
+     if (lane != 0 && !did_change_lane) {
+          
+          bool lane_change_ok = true;
+          
+          for (int i = 0; i < sensor_fusion.size(); i++) {
+               float d = sensor_fusion[i][6];
+               if (d < (2 + 4 * (lane - 1) + 2) && d > (2 + 4 * (lane - 1) - 2)) {
+
+                    double vx = sensor_fusion[i][3];
+                    double vy = sensor_fusion[i][4];
+                    double check_speed = sqrt(vx * vx + vy * vy);
+
+                    double check_car_s = sensor_fusion[i][5];
+                    check_car_s += ((double)prev_size * 0.02 * check_speed);
+                    double dist_s = check_car_s - car_s;
+
+                    if (dist_s < 20 && dist_s > -20) {
+                         lane_change_ok = false;
+                    }
+          }
+     }
+
+     if (lane_change_ok) {
+          did_change_lane = true;
+          lane -= 1;
+          waypoint_change_lane = next_waypoint;
+     }
+}
+```
 
 ### Perfect Controller
 
