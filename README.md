@@ -61,7 +61,7 @@ The highway's waypoints are set up in an overlapping loop. Therefore, the frenet
 
 # Model Documentation
 
-### A Linear Path Planner
+### Linear Path Planner
 ![Linear](resources/linear_path.png)
 
 ### Circular Path Planner
@@ -242,7 +242,7 @@ Some latency exists between the simulator running and the path planner returning
 
 The final results for the project can be found on YouTube by clicking below:
 
-![Alt text](https://img.youtube.com/vi/i8Y7JJEjpBs/0.jpg)](https://www.youtube.com/watch?v=i8Y7JJEjpBs)
+![Video](https://img.youtube.com/vi/i8Y7JJEjpBs/0.jpg)](https://www.youtube.com/watch?v=i8Y7JJEjpBs)
 
 # Future Plans
 
