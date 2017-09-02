@@ -59,7 +59,111 @@ The highway's waypoints are set up in an overlapping loop. Therefore, the frenet
 
 ["sensor_fusion"] A 2d vector of cars and then that car's [car's unique ID, car's x position in map coordinates, car's y position in map coordinates, car's x velocity in m/s, car's y velocity in m/s, car's s position in frenet coordinates, car's d position in frenet coordinates. 
 
-# Project Reflections
+# Model Documentation
+
+### A Linear Path Planner
+![Linear](resources/linear_path.png)
+
+### Circular Path Planner
+![Circular](resources/circular_path.png)
+
+After implementing the starter code for linear and circular paths as shown above, several elements of the path planner needed to be developed further to obtain a fully functional system. Each of the major considerations are explained in detail below.
+
+### h.OnMessage(...) Function Overview
+
+The code model for generating paths is roughly based on the normal decision-making process of a human driver. The `h.OnMessage(...)` function handles all of the car's decisions of this nature. The following code snippets walk through the highlights of this function step-by-step:
+
+#### **1. Declare Variables**
+
+After declaring the car data variables explained in the **Definitions** section, several variables are declared to handle the reference velocity and position of the vehicle. Additionally, `prev_size` contains a status of the number of path points and `next_waypoint` keeps track of the nearest waypoint to the front of the vehicle, initialized to -1 since 0 refers a specific value.
+
+```
+double ref_vel = 49.5; //in mph
+
+int prev_size = previous_path_x.size();
+
+int next_waypoint = -1;
+   
+double ref_x = car_x;
+double ref_y = car_y;
+double ref_yaw = deg2rad(car_yaw);
+```
+
+#### **2. Find Next Waypoint**
+
+The `prev_size` variable provides information on the size of the path points stored in the planner. The code generates a `next_waypoint` based on the size of `prev_size`, which depends on the reference variables defined in step 1 once the size is greater than 2.
+
+```
+if (prev_size < 2) {
+
+next_waypoint = NextWaypoint(ref_x, ref_y, ref_yaw, map_waypoints_x, map_waypoints_y, map_waypoints_dx, map_waypoints_dy);
+
+} else {
+
+     ref_x = previous_path_x[prev_size - 1];
+     double ref_x_prev = previous_path_x[prev_size - 2];
+     ref_y = previous_path_y[prev_size - 1];
+     double ref_y_prev = previous_path_y[prev_size - 2];
+     ref_yaw = atan2(ref_y - ref_y_prev, ref_x - ref_x_prev);
+     next_waypoint = NextWaypoint(ref_x, ref_y, ref_yaw, map_waypoints_x, map_waypoints_y, map_waypoints_dx, map_waypoints_dy);
+
+     car_s = end_path_s;
+
+     car_speed = (sqrt((ref_x - ref_x_prev) * (ref_x - ref_x_prev) + (ref_y - ref_y_prev) * (ref_y - ref_y_prev)) / 0.02) * 2.24;
+}
+```
+
+**3. Check for Cars in The Current Lane**
+
+![Check](check_speed.png)
+
+This part of the code centers around the Frenet `d` value pulled from the `sensor_fusion` data. This value is very useful because it follows the centerline of each lane and can be used to easily compare the positions of other vehicles to our vehicle. The logic behind the first `if` statement checks the current lane to see if there are cars that share the same d value. If the d values are the same, then there is another vehicle ahead of our car in the current lane.
+
+```
+for (int i = 0; i < sensor_fusion.size(); i++) {
+
+     float d = sensor_fusion[i][6];
+     if(d < (2+4*lane+2) && d > (2+4*lane-2)) {
+          double vx = sensor_fusion[i][3];
+          double vy = sensor_fusion[i][4];
+          double check_speed = sqrt(vx * vx + vy * vy);
+          double check_car_s = sensor_fusion[i][5];
+
+          // Use this to project points from previous points
+          check_car_s += ((double)prev_size * 0.02 * check_speed);
+
+          // SPEED HANDLING CODE GOES HERE
+     }
+}
+```
+
+**4. Slow Down to Match Car in Front**
+
+![Speed](resources/slow_down.png)
+
+When inserted in place of the comment "SPEED HANDLING CODE GOES HERE" in Step 3, the `if` statement below handles changing the car's speed based on the location of the vehicle in front of it (now that it knows one is present).
+
+```
+// Check for larger s values and s gap
+if ((check_car_s > car_s) && ((check_car_s - car_s) < 30) && ((check_car_s - car_s) < minDist_s)) {
+     
+     minDist_s = (check_car_s - car_s);
+
+     if ((check_car_s - car_s > 20)) {
+          // Match check_car's speed
+          ref_vel = check_speed * 2.24;
+          change_lane = true;
+
+     } else {
+
+          // Begin reducing speed to check_car's speed
+          ref_vel = check_speed * 2.24 - 5;
+          change_lane = true;
+     }
+}
+```
+
+**5. Change Lanes to the Left or Right**
 
 ### Perfect Controller
 
@@ -94,6 +198,12 @@ Some latency exists between the simulator running and the path planner returning
 
 + The code in this repository roughly follows [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html).
 + All of the code must be buildable with cmake and make.
+
+# Final Results
+
+The final results for the project can be found on YouTube by clicking below:
+
+![Alt text](https://img.youtube.com/vi/i8Y7JJEjpBs/0.jpg)](https://www.youtube.com/watch?v=i8Y7JJEjpBs)
 
 # Future Plans
 
