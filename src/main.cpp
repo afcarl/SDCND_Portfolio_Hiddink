@@ -268,7 +268,7 @@ int main() {
             }
 
             // Find ref_v to use
-            double minDist_s = 50000;
+            double minDist_s = 100000;
             bool change_lane = false;
 
             for (int i = 0; i < sensor_fusion.size(); i++) {
@@ -303,11 +303,11 @@ int main() {
                 }
               }
             }
-///////////////////////////////////////////
+                  /////////////////////////
                   // HANDLE LANE CHANGES //
                   /////////////////////////
 
-                  if (change_lane) {
+                  if (change_lane && ((next_waypoint - waypoint_change_lane) % map_waypoints_x.size() > 2)) {
                     bool did_change_lane = false;
 
                     // Check the left lane for a potential lane change
@@ -336,6 +336,7 @@ int main() {
                       if (lane_change_ok) {
                         did_change_lane = true;
                         lane -= 1;
+                        waypoint_change_lane = next_waypoint;
                       }
 
                     }
@@ -362,6 +363,7 @@ int main() {
                       if (lane_change_ok) {
                         did_change_lane = true;
                         lane += 1;
+                        waypoint_change_lane = next_waypoint;
                       }
                     }
                   }
@@ -457,7 +459,7 @@ int main() {
               }
 
               // Find points on spline
-              double N = (target_dist / (0.02 * ref_vel / 2.24));
+              double N = (target_dist / (0.02 * car_speed / 2.24));
               double x_point = x_add_on + target_x / N;
               double y_point = s(x_point);
 
