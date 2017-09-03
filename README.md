@@ -242,7 +242,7 @@ Some latency exists between the simulator running and the path planner returning
 
 The final results for the project can be found on YouTube by clicking below:
 
-![Video](https://img.youtube.com/vi/i8Y7JJEjpBs/0.jpg)](https://www.youtube.com/watch?v=i8Y7JJEjpBs)
+[![Video](https://img.youtube.com/vi/i8Y7JJEjpBs/0.jpg)](https://www.youtube.com/watch?v=i8Y7JJEjpBs)
 
 # Future Plans
 
